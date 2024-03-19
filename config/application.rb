@@ -11,6 +11,12 @@ module Labelr
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
+    # Don't generate system test files.
+    config.generators.system_tests = nil
+
+    # Save db schema as SQL
+    config.active_record.schema_format = :sql
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

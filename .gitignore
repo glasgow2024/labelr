@@ -12,6 +12,7 @@
 .nvmrc
 .DS_Store
 .yarn
+etc
 
 # Ignore all logfiles and tempfiles.
 /log/*
