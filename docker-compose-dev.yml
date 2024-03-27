@@ -67,8 +67,8 @@ services:
       - type: tmpfs
         target: /opt/labelr/tmp
     ports:
+      - "3000:3000"
       - "5100:5100"
-      - "3036:3036"
     depends_on:
       - postgres
     links:
