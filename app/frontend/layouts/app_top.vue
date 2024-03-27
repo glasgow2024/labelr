@@ -3,13 +3,10 @@
     <div class="row">
       <div class="col-12 px-0">
         <b-navbar toggleable="lg" type="dark" variant="secondary">
-          <b-navbar-brand href="/">Labelr</b-navbar-brand>
+          <b-navbar-brand to="/">Labelr</b-navbar-brand>
           <b-navbar-nav class="ml-auto">
-            <!-- <LanguageSwitcher class="mr-3" /> -->
-            <b-nav-text class="mr-3" v-if="loggedIn">Logged in as: {{ currentUser.email ? currentUser.email : '' }}</b-nav-text>
-            <b-nav-form v-if="!loggedIn">
-              <b-button size="sm" @click="login" variant="primary">login</b-button>
-            </b-nav-form>
+            <b-nav-text class="mr-3" v-if="loggedIn">Logged in as: {{currentUser.email ? currentUser.email :
+              ''}}</b-nav-text>
             <b-nav-form v-if="loggedIn">
               <b-button size="sm" @click="logout" variant="primary">Logout</b-button>
             </b-nav-form>
@@ -17,28 +14,36 @@
         </b-navbar>
       </div>
     </div>
-    <!-- <app-top-nav></app-top-nav> -->
+    <div class="row">
+      <div class="col-12 px-0">
+        <b-nav align="center" class="bg-dark text-white" v-if="loggedIn">
+          <b-nav-text v-if="selected_printer" class="mr-3">Printer: {{ selected_printer }}</b-nav-text>
+          <b-nav-text v-else class="mr-3">Printer: None Detected</b-nav-text>
+          <b-nav-text v-if="environment && environment.errorDetails.length > 0" class="mr-3">{{ environment.errorDetails
+            }}</b-nav-text>
+          <b-nav-text v-else-if="allSystemsGo" class="mr-3">Good To Print!</b-nav-text>
+          <b-nav-text v-else class="mr-3">Unable to Print</b-nav-text>
+        </b-nav>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import userSessionMixin from "@/mixins/user_session.mixin"
 import { authMixin } from '@/mixins/auth.mixin';
-// import AppTopNav from '@/layouts/app_top_nav.vue';
-// import Tr from "@/i18n/translation";
-// import LanguageSwitcher from "@/components/language_switcher.vue";
+import printerMixin from "@/mixins/printer.mixin"
 
 /*
  */
 export default {
   name: "AppTop",
   components: {
-    // AppTopNav
-    // LanguageSwitcher
   },
   mixins: [
     authMixin,
-    userSessionMixin
+    userSessionMixin,
+    printerMixin
   ],
   data() {
     return {
@@ -52,7 +57,7 @@ export default {
       this.signOut().then(() => {
         this.fetchSession({ force: true }).then(
           () => {
-            this.$router.push(`/`)
+            this.$router.push(`/login`)
           }
         )
       })

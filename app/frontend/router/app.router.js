@@ -2,7 +2,7 @@
  */
 import { store } from '@/store/model.store';
 
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { GET_SESSION_USER } from '@/store/user_session.store';
 
 import Dashboard from '@/components/dashboard/dashboard.vue';
@@ -14,6 +14,8 @@ import Login from '@/components/login/login.vue';
 import NewPassword from '@/components/login/new_password.vue';
 import RegistrantsManage from '@/components/registrants/registrants_manage.vue';
 
+import PrinterManage from '@/components/printer/printer_manage.vue';
+
 // import Tr from "@/i18n/translation"
 
 const loginRoutes = [
@@ -24,7 +26,7 @@ const loginRoutes = [
 
 export const router = createRouter({
   // Provide the history implementation to use. We are using the hash history for simplicity here.
-  history: createWebHistory(), //(process.env.BASE_URL),
+  history: createWebHashHistory(), //import.meta.env.BASE_URL), //(process.env.BASE_URL),
   routes: [
     {
       path: '/login',
@@ -34,14 +36,10 @@ export const router = createRouter({
       props: true
     },
     {
-      path: '',
-      redirect: '/dashboard'
-    },
-    {
       path: '/dashboard',
       component: Dashboard,
       meta: {
-        // requiresAuth: true
+        requiresAuth: true
       }
     },
     {
@@ -51,10 +49,16 @@ export const router = createRouter({
         requiresAuth: true
       }
     },
-    { 
-      path: '/:pathMatch(.*)*', 
-      name: 'NotFound', 
-      component: Dashboard 
+    {
+      path: '/printer',
+      component: PrinterManage,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '',
+      redirect: '/dashboard'
     }
   ]
 })
@@ -69,13 +73,10 @@ router.beforeEach((to, from, next) => {
           query: { redirect: to.fullPath }
         })
       } else {
-        next();
-        // next({
-        //   path: '/',
-        //   query: { redirect: to.fullPath }
-        // })
+        next()
       }
     }).catch((error) => {
+      console.error(error)
       next();
     })
   } else {

@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   end
 
   # Catch all for vue router
-  get '*path', to: 'home#index', constraints: -> (request) do
-    !request.xhr? && request.format.html?
-  end
+  # get '*path', to: 'home#index', constraints: -> (request) do
+  #   !request.xhr? && request.format.html?
+  # end
 end

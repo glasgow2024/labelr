@@ -1,13 +1,13 @@
 <template>
   <div class="mb-3">
     <registrants-table></registrants-table>
-    <!-- <organization-sidebar :model="model"></organization-sidebar> -->
+    <registrant-sidebar :model="model"></registrant-sidebar>
   </div>
 </template>
 
 <script>
 import RegistrantsTable from './registrants_table.vue';
-// import OrganizationSidebar from './organization_sidebar.vue';
+import RegistrantSidebar from './registrant_sidebar.vue';
 import { registrantModel as model } from '@/store/registrant.store'
 
 export default {
@@ -17,7 +17,7 @@ export default {
   }),
   components: {
     RegistrantsTable,
-    // OrganizationSidebar
+    RegistrantSidebar
   },
   mixins: [
   ]

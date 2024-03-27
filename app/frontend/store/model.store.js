@@ -6,6 +6,8 @@ import { getId } from '@/utils/utils';
 import { userSessionStore } from './user_session.store';
 import { registrantStore, registrantEndpoints } from './registrant.store';
 
+import {printerStore} from './printer.store'
+
 // Store for global app states
 import { appStore } from './app.store';
 
@@ -46,6 +48,7 @@ export const store = createStore({
     },
     // ...registrantStore.state,
     ...userSessionStore.state,
+    ...printerStore.state,
     ...appStore.state
   },
   getters: {
@@ -56,7 +59,8 @@ export const store = createStore({
         return utils.deepCopy(res)
       }
     },
-    ...userSessionStore.getters
+    ...userSessionStore.getters,
+    ...printerStore.getters
   },
   mutations: {
     [SELECT](state, { model, itemOrId }) {
@@ -69,6 +73,7 @@ export const store = createStore({
       this.commit('jv/clearRecords', { _jv: { type: model } })
     },
     ...userSessionStore.mutations,
+    ...printerStore.mutations,
     ...appStore.mutations
   },
   actions: {
@@ -176,6 +181,7 @@ export const store = createStore({
         }).catch(rej);
       });
     },
-    ...userSessionStore.actions
+    ...userSessionStore.actions,
+    ...printerStore.actions
   }
 });

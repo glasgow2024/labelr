@@ -1,19 +1,21 @@
 <template>
   <div>
-    <table-vue 
+    <table-vue
       defaultSortBy='ticket_number'
       :defaultSortDesc="false"
       :model="model"
       :columns="columns"
+      ref="registrants-table">
+    <!--
       defaultFilter='{"op":"all","queries":[["attending_status", "!=", "1"]]}'
-      ref="registrants-table"
-    >
+      ref="registrants-table"> -->
       <!-- defaultFilter='{"op":"all","queries":[["product_id", "!=", "1"], ["product_id", "!=", "25"], ["product_id", "!=", "35"]]}' -->
       <template #cell(product_data)="{ item }">
         {{ JSON.parse(item.product_data).title }}
       </template>
       <template #cell(attending_status)="{ item }">
-        <div v-if="item.attending_status == 2">In Person</div>
+        <div v-if="item.attending_status == 1">Not Attending</div>
+        <div v-else-if="item.attending_status == 2">In Person</div>
         <div v-else-if="item.attending_status == 3">Online</div>
         <div v-else-if="item.attending_status == 4">Programme</div>
         <div v-else-if="item.attending_status == 5">Finalist</div>

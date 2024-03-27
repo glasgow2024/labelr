@@ -8,6 +8,7 @@
 <script>
 import userSessionMixin from "@/mixins/user_session.mixin";
 import AppLayout from "@/layouts/app_layout.vue"
+import printerMixin from "@/mixins/printer.mixin"
 
 export default {
   name: "LabelrApp",
@@ -15,8 +16,12 @@ export default {
     AppLayout
   },
   mixins: [
-    userSessionMixin
-  ]
+    userSessionMixin,
+    printerMixin
+  ],
+  mounted() {
+    this.initPrinter()
+  }
 }
 </script>
 

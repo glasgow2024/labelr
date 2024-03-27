@@ -1,33 +1,25 @@
 <template>
   <!-- TODO: put in instructions etc. -->
   <div class="row justify-content-center mt-5">
-    <div class="col-md-6" v-if="loggedIn">
-      <div class="d-flex m-2">
-      <!-- <div class="col" v-if="loggedIn"> -->
-        <b-card
-          title="Check Printer"
-          tag="labels"
-          style="width: 45%;"
-          class="mr-2"
-        >
-          <b-card-text>
+    <div v-if="loggedIn">
+      <b-card-group deck>
+        <b-card no-body title="Check Printer" tag="labels">
+          <b-card-body>
             Setup printer for the convention
-          </b-card-text>
-
-          <b-button href="/printer" variant="primary">Setup Printer</b-button>
+          </b-card-body>
+          <b-card-footer>
+            <b-button href="#printer" variant="primary">Setup Printer</b-button>
+          </b-card-footer>
         </b-card>
-        <b-card
-          title="Print Labels"
-          tag="labels"
-          style="width: 45%;"
-        >
-          <b-card-text>
+        <b-card no-body title="Print Labels" tag="labels">
+          <b-card-body>
             Print labels for members of the convention
-          </b-card-text>
-
-          <b-button href="/registrants" variant="primary">Go Print Labels</b-button>
+          </b-card-body>
+          <b-card-footer>
+            <b-button href="#registrants" variant="primary">Go Print Labels</b-button>
+          </b-card-footer>
         </b-card>
-      </div>
+      </b-card-group>
     </div>
   </div>
 </template>

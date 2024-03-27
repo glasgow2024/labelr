@@ -1,0 +1,87 @@
+#
+# This is the dev version of the docker compose
+# this is overlaid on the docket compose for dev environments
+#
+# NOTE:
+# You will need to create volumes for the data to be persistent between runs
+#   docker volume create --name=labelr-pgdata
+#   docker volume create --name=labelr-node-modules
+#   docker volume create --name=labelr-mysqldata
+#
+# NOTE:
+# start the docker containers:
+#   docker-compose -p labelr-dev -f docker-compose-dev.yml up
+# build and start the docker containers:
+#   docker-compose -p labelr-dev -f docker-compose-dev.yml up --build
+# build and start the docker containers and detach the processes:
+#   docker-compose -p labelr-dev -f docker-compose-dev.yml up --build -d
+#
+version: "3.7"
+
+volumes:
+  labelr-pgdata:
+    external: true
+  labelr-node-modules:
+    external: true
+  labelr-mysqldata:
+    external: true
+  box: {} # used for the bundler, persistent store between runs
+
+services:
+  # The database server - only needed for dev and test
+  # The Postgre DB
+  postgres:
+    image: postgres:12-alpine
+    env_file:
+      - .envrc
+    volumes:
+      - labelr-pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # Used for a dummy local mail server to test mails without going to internet
+  mailcatcher:
+    image: schickling/mailcatcher
+    entrypoint: "mailcatcher -f --ip 0.0.0.0"
+    ports:
+      - 10025:1025
+      - 1080:1080
+
+  labelr:
+    command: /opt/labelr/script/start.sh
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    env_file:
+      - .envrc
+    environment:
+      - DB_HOST=postgres
+      - RAILS_ENV=development
+      - NODE_ENV=development
+      - SMTP_SERVER=mailcatcher
+      - SMTP_PORT=1025
+    volumes:
+      - labelr-node-modules:/opt/labelr/node_modules
+      - .:/opt/labelr
+      - box:/var/bundler
+      - type: tmpfs
+        target: /opt/labelr/tmp
+    ports:
+      - "5100:5100"
+      - "3036:3036"
+    depends_on:
+      - postgres
+    links:
+      - postgres
+      - mailcatcher
+
+  mysql:
+    image: mysql:5.7
+    platform: linux/x86_64
+    env_file:
+      - .envrc
+    volumes:
+      - labelr-mysqldata:/var/lib/mysql
+      - ./etc/mysql/conf.d:/etc/mysql/conf.d
+    ports:
+      - "3306:3306"
