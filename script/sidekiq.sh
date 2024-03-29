@@ -17,4 +17,4 @@ else
   done
 fi
 
-bundle exec sidekiq
+bin/bundle exec sidekiq
