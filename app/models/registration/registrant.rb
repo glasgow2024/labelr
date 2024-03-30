@@ -10,6 +10,8 @@ class Registration::Registrant < Registration::RegistrationRecord
   # attending status
   default_scope { where("attending_status != 1") }
 
+  belongs_to :product, class_name: 'Registration::Product'
+
   # Make sure that the data is treated as read only
   def readonly?
     true

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get "registration/registrant/columns", to: 'registration/registrants#columns'
   namespace :registration do
     resources :registrants, path: 'registrant'
+    resources :products, path: 'product'
   end
 
   # Catch all for vue router

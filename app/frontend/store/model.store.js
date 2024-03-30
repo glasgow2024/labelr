@@ -7,6 +7,7 @@ import { userSessionStore } from './user_session.store';
 import { registrantStore, registrantEndpoints } from './registrant.store';
 
 import {printerStore} from './printer.store'
+import { searchStateStore } from "@/store/search_state.store";
 
 // Store for global app states
 import { appStore } from './app.store';
@@ -49,6 +50,7 @@ export const store = createStore({
     // ...registrantStore.state,
     ...userSessionStore.state,
     ...printerStore.state,
+    ...searchStateStore.state,
     ...appStore.state
   },
   getters: {
@@ -60,6 +62,7 @@ export const store = createStore({
       }
     },
     ...userSessionStore.getters,
+    ...searchStateStore.getters,
     ...printerStore.getters
   },
   mutations: {
@@ -74,6 +77,7 @@ export const store = createStore({
     },
     ...userSessionStore.mutations,
     ...printerStore.mutations,
+    ...searchStateStore.mutations,
     ...appStore.mutations
   },
   actions: {
@@ -182,6 +186,7 @@ export const store = createStore({
       });
     },
     ...userSessionStore.actions,
+    ...searchStateStore.actions,
     ...printerStore.actions
   }
 });

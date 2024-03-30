@@ -40495,7 +40495,6 @@ dymo.label.framework.openLabelXml = function(labelXml)
     var logger = new goog.debug.Logger('dymo.label.framework');
     logger.setLevel(goog.debug.Logger.Level.INFO);
     logger.info(labelXml);
-  console.debug("****** ", labelXml);
     
     return new dymo.label.framework.Label(labelXml);
 }

@@ -17,7 +17,8 @@ export const printerMixin = {
     ]),
     allSystemsGo: function() {
       return this.environment && this.environment.isBrowserSupported && 
-        this.environment.isFrameworkInstalled && this.environment.isWebServicePresent
+        this.environment.isFrameworkInstalled && 
+        this.environment.isWebServicePresent && (this.printers.length > 0)
     }
   },
   methods: {
@@ -86,9 +87,16 @@ export const printerMixin = {
       return res;
     },
     generatePreview({name ="", number = "", country = "", title = ""}) {
-      this.label = this.generateLabel({ name: name, number: number, country: country, title: title });
-      if(!this.label) return null;
-      return this.label.render();
+      try {
+        this.label = this.generateLabel({ name: name, number: number, country: country, title: title });
+        if (!this.label) return null;
+        return this.label.render();
+      } catch(err) {
+        console.debug("**** ERROR", err)
+        // 
+        this.checkEnvironment()
+        return null;
+      }
     },
     doPrint(label = null) {
       if (label) this.label = label;
@@ -97,21 +105,29 @@ export const printerMixin = {
 
       this.label.print(this.selected_printer);
     },
+    checkEnvironment() {
+      console.debug("**** CHECK ENV")
+      dymo.label.framework.checkEnvironment(
+        (env) => {
+          this.setEnvironment(env)
+          console.debug("*** ENV: ", env)
+          if (env.errorDetails.length == 0) {
+            // See if we can get the list of printers anyway
+            this.getPrinters()
+          } else {
+            console.debug("**** ERR: ", env.errorDetails)
+          }
+        }
+
+      )
+    },
     initPrinter() {
-      return new Promise((res, rej) => {
+      return new Promise(() => {
         // Initialize the Dymo franework
         dymo.label.framework.init(
           () => {
             // Get the environment for Dymo
-            let env = dymo.label.framework.checkEnvironment()
-            this.setEnvironment(env)
-            if (env.errorDetails.length == 0) {
-              // See if we can get the list of printers anyway
-              this.getPrinters()
-              res(env)
-            } else {
-              rej(env)
-            }
+            this.checkEnvironment()
           }
         );
       })

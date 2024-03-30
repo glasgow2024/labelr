@@ -53,7 +53,7 @@ export const registrant_columns = [
     label: 'Attending Status',
   },
   {
-    key: 'product_data',
+    key: 'product_name',
     label: 'Product'
   }  
 ];

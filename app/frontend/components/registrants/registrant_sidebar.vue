@@ -91,7 +91,11 @@ export default {
       // this.generateLabel({ name: selected.first_name + selected.last_name, number: "1111" });
       this.previewImage = this.generatePreview(this.badge_content);
       // var labelImage = document.getElementById('labelImage');
-      return "data:image/png;base64," + this.previewImage;
+      if (this.previewImage) {
+        return "data:image/png;base64," + this.previewImage;
+      } else {
+        return null;
+      }
     }
   },
   methods: {

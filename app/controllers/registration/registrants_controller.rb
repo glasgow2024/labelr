@@ -4,11 +4,17 @@ class Registration::RegistrantsController < ResourceController
   POLICY_CLASS = 'Registration::RegistrantPolicy'.freeze
   POLICY_SCOPE_CLASS = 'Registration::RegistrantPolicy::Scope'.freeze
 
+  # def serializer_includes
+  #   [
+  #     :product
+  #   ]
+  # end
+
   # where p.product_data not like '%WSFS%';
-  def index
-    params[:filter] = '{"op":"all","queries":[["product_data", "does not contain", "WSFS"]]}'
-    super
-  end
+  # def index
+  #   params[:filter] = '{"op":"all","queries":[["product_data", "does not contain", "WSFS"]]}'
+  #   super
+  # end
 
   # Method to get the column names
   def columns

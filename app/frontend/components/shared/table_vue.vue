@@ -1,6 +1,21 @@
 <template>
   <div>
     <div class="d-flex justify-content-between my-3" v-if="showControls">
+      <search-vue class="w-75" :value="filter" @change="onSearchChanged" :columns="columns" v-if="showSearch"
+        :stateName="stateName" ref="table-search">
+        <!-- <template v-slot:alternate-search-tab>
+          <b-tab v-if="$slots['alternate-search']" ref="alternate-search-tab">
+            <template #title>
+              <slot name="alternate-search-title">
+                Alternate Search
+              </slot>
+            </template>
+
+            <slot name="alternate-search"></slot>
+          </b-tab>
+        </template> -->
+      </search-vue>
+
       <div class="w-75" v-if="!showSearch"></div>
       <div class="d-flex justify-content-end">
         <div class="d-inline mx-1" title="clone" v-if="showClone">
@@ -77,12 +92,12 @@
 <script>
 import modelMixin from '@/mixins/model.mixin';
 import tableMixin from '@/mixins/table.mixin';
-// import SearchVue from './search_vue'
+import SearchVue from '@/components/shared/search_vue.vue';
 
 export default {
   name: 'TableVue',
   components: {
-    // SearchVue
+    SearchVue
   },
   mixins: [
     modelMixin,
@@ -100,7 +115,7 @@ export default {
     },
     showSearch: {
       type: Boolean,
-      default: false
+      default: true
     },
     showAdd: {
       type: Boolean,

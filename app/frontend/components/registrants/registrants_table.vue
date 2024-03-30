@@ -5,6 +5,8 @@
       :defaultSortDesc="false"
       :model="model"
       :columns="columns"
+      :show-search="true"
+      stateName="registrants-table-search-state"
       ref="registrants-table">
     <!--
       defaultFilter='{"op":"all","queries":[["attending_status", "!=", "1"]]}'

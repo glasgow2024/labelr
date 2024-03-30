@@ -279,11 +279,12 @@ module ResourceMethods
       else
         key, operation, value = query
 
-        col_table = if (key.include?('responses.'))
-          Arel::Table.new('survey_responses')
-        else
-          get_table(column: key)
-        end
+        col_table = get_table(column: key)
+        # if (key.include?('responses.'))
+        #   Arel::Table.new('survey_responses')
+        # else
+        #   get_table(column: key)
+        # end
 
         if key == 'all'
           # change to allowd limiting to named cols?, pass in list of cols to include based in what is displayed ...
@@ -293,13 +294,13 @@ module ResourceMethods
             part = part ? part.or(query_part) : query_part
           end
           # This for survey submissions ....
-          if model_class == Survey::Submission
-            Survey::Response.columns.each do |col|
-              next unless [:text, :string].include?(col.type)
-              query_part = get_query_part(table: Arel::Table.new('survey_responses'), column: col.name, operation: 'like', value: value, key: key)
-              part = part ? part.or(query_part) : query_part
-            end
-          end
+          # if model_class == Survey::Submission
+          #   Survey::Response.columns.each do |col|
+          #     next unless [:text, :string].include?(col.type)
+          #     query_part = get_query_part(table: Arel::Table.new('survey_responses'), column: col.name, operation: 'like', value: value, key: key)
+          #     part = part ? part.or(query_part) : query_part
+          #   end
+          # end
         else
           # Have a special key to allow for extra queries ...
           if (key.include?('subquery'))
