@@ -1,0 +1,82 @@
+#
+# This is sample docker file for use in a prod environment
+#
+# NOTE: You will need to create the persistent volumes:
+#
+# docker volume create --name=labelr-redis-data
+# docker volume create --name=labelr-pgdata
+#
+version: "3.7"
+
+volumes:
+  labelr-redis-data:
+    external: true
+  labelr-pgdata:
+    external: true
+
+services:
+  redis:
+    container_name: labelr-redis
+    image: redis:alpine
+    restart: always
+    volumes:
+      - labelr-redis-data:/data
+
+  postgres:
+    container_name: labelr-postgres
+    image: postgres:15-alpine
+    restart: always
+    env_file:
+      - "/opt/glasgow2024/etc/labelr.env"
+    volumes:
+      - labelr-pgdata:/var/lib/postgresql/data
+    ports:
+      - "6432:5432"
+
+  web:
+    container_name: labelr-web
+    command: "/opt/labelr/script/start.sh"
+    image: ghcr.io/balen/labelr:latest
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - /var/log/labelr/web:/opt/labelr/log
+      - type: tmpfs
+        target: /app/tmp
+    environment:
+      - PGID=1005
+      - PUID=1001
+      - RAILS_ENV=production
+      - NODE_ENV=production
+    env_file:
+      - "/opt/glasgow2024/etc/labelr.env"
+    depends_on:
+      - postgres
+      - redis
+    links:
+      - postgres
+      - redis
+    restart: always
+
+  labelr-sidekiq:
+    container_name: labelr-sidekiq
+    command: "/opt/labelr/script/sidekiq.sh"
+    image: ghcr.io/balen/labelr:latest
+    volumes:
+      - /var/log/labelr/sidekiq:/opt/labelr/log
+      - type: tmpfs
+        target: /app/tmp
+    environment:
+      - PGID=1005
+      - PUID=1001
+      - RAILS_ENV=production
+      - NODE_ENV=production
+    env_file:
+      - "/opt/glasgow2024/etc/labelr.env"
+    depends_on:
+      - redis
+      - postgres
+    links:
+      - redis
+      - postgres
+    restart: always

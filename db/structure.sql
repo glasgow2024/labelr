@@ -40,6 +40,23 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: impressions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.impressions (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    registrant_id integer,
+    user_id uuid,
+    user_name character varying(500),
+    date_printed timestamp(6) without time zone,
+    label_used jsonb,
+    lock_version integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -82,6 +99,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
+-- Name: impressions impressions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.impressions
+    ADD CONSTRAINT impressions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -120,6 +145,7 @@ SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" (version) VALUES
 ('20240311212210'),
 ('20240311212226'),
-('20240312132228');
+('20240312132228'),
+('20240401180351');
 
 

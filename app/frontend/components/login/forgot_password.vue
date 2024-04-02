@@ -1,4 +1,3 @@
-<!-- Copyright (c) 2023 Henry Balen. All Rights Reserved. -->
 <template>
   <div class="row justify-content-center mt-5">
     <div class="col-md-6">

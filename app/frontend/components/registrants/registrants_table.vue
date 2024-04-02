@@ -1,17 +1,18 @@
 <template>
   <div>
-    <table-vue
+    <registrant-search @change="onSearchChanged"></registrant-search>
+    <table-vue 
       defaultSortBy='ticket_number'
       :defaultSortDesc="false"
       :model="model"
       :columns="columns"
-      :show-search="true"
+      :show-search="false"
       stateName="registrants-table-search-state"
-      ref="registrants-table">
-    <!--
-      defaultFilter='{"op":"all","queries":[["attending_status", "!=", "1"]]}'
-      ref="registrants-table"> -->
-      <!-- defaultFilter='{"op":"all","queries":[["product_id", "!=", "1"], ["product_id", "!=", "25"], ["product_id", "!=", "35"]]}' -->
+      ref="registrants-table"
+    >
+      <template #cell(printed)="{ item }">
+        <b-icon v-if="item.printed" icon="check-lg" variant="success"></b-icon>
+      </template>
       <template #cell(product_data)="{ item }">
         {{ JSON.parse(item.product_data).title }}
       </template>
@@ -33,20 +34,23 @@ import Modal from '@/components/shared/modal.vue';
 import TableVue from '@/components/shared/table_vue.vue';
 import { registrant_columns as columns } from './registrants';
 import { registrantModel as model } from '@/store/registrant.store'
+import RegistrantSearch from "./registrant_search.vue"
 
 export default {
   name: 'RegistrantTable',
   components: {
     TableVue,
-    Modal
+    Modal,
+    RegistrantSearch
   },
   data: () => ({
     columns,
     model
   }),
-  // mixins: [
-  // ],
   methods: {
+    onSearchChanged(arg) {
+      this.$refs['registrants-table'].filter = arg
+    },
   },
   mounted() {
     this.$refs['registrants-table'].fetchPaged()

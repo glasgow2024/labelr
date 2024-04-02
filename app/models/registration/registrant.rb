@@ -1,8 +1,6 @@
 class Registration::Registrant < Registration::RegistrationRecord
   # We get the name of the table for registrants from the ENV variable
   self.table_name = "#{ENV.fetch("REG_DB_TABLE")}"
-  # TODO: id ???
-
   # default scope - where product_id != 1 ????
   #'{"op":"all","queries":[["product_id", "!=", "1"], ["product_id", "!=", "25"], ["product_id", "!=", "35"]]}'
   # 25 - WSFS only supporting
@@ -11,6 +9,8 @@ class Registration::Registrant < Registration::RegistrationRecord
   default_scope { where("attending_status != 1") }
 
   belongs_to :product, class_name: 'Registration::Product'
+
+  has_many :impressions, class_name: "Impression", foreign_key: "registrant_id"
 
   # Make sure that the data is treated as read only
   def readonly?

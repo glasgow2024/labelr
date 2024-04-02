@@ -21,4 +21,10 @@ class Registration::RegistrantSerializer
   attribute :product_name do |obj|
     obj.product.list_name
   end
+
+  attribute :printed do |obj|
+    obj.impressions.count > 0
+  end
+
+  has_many :impressions, serializer: ImpressionSerializer
 end

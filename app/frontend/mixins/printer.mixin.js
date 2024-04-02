@@ -1,19 +1,29 @@
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 import { SET_PRINTERS, SELECT_PRINTER, SET_ENVIRONMENT } from '@/store/printer.store'
+import { NEW_IMPRESSION } from '@/store/impression.store'
 import badgeXML from '@/data/badge.xml?raw'
+import userSessionMixin from "@/mixins/user_session.mixin"
+import modelUtilsMixin from '@/mixins/model_utils.mixin';
+import { registrantModel } from '@/store/registrant.store'
 
 export const printerMixin = {
+  mixins: [
+    userSessionMixin,
+    modelUtilsMixin
+  ],
   data() {
     return {
       badgexml: badgeXML,
-      label: null
+      label: null,
+      labelJson: {}
     }
   },
   computed: {
     ...mapState([
       'environment',
       'printers',
-      'selected_printer'
+      'selected_printer',
+      'selected_registrant'
     ]),
     allSystemsGo: function() {
       return this.environment && this.environment.isBrowserSupported && 
@@ -27,19 +37,28 @@ export const printerMixin = {
       selectPrinter: SELECT_PRINTER,
       setEnvironment: SET_ENVIRONMENT,
     }),
+    ...mapActions({
+      saveImpression: NEW_IMPRESSION
+    }),
     getPrinters() {
-      let printers = dymo.label.framework.getPrinters()
-      this.setPrinters(printers)
-      if (printers && printers.length == 1) {
-        this.selectPrinter(printers[0].name)
+      try {
+        let printers = dymo.label.framework.getPrinters()
+        this.setPrinters(printers)
+        if (printers && printers.length == 1) {
+          this.selectPrinter(printers[0].name)
+        }
+        return printers
+      } catch (err) {
+        return [];
       }
-      return printers
     },
     generateLabel({ name = "", number = "", country = "", title = "" }) {
       let label = dymo.label.framework.openLabelXml(this.badgexml)
       let valid = label.isValidLabel();
 
       if (!valid) return null;
+
+      this.labelJson = { name: name, number: number, country: country, title: title }
 
       if (name) {
         label.setObjectText('MemberName', this.split_name(name));
@@ -92,8 +111,6 @@ export const printerMixin = {
         if (!this.label) return null;
         return this.label.render();
       } catch(err) {
-        console.debug("**** ERROR", err)
-        // 
         this.checkEnvironment()
         return null;
       }
@@ -103,7 +120,24 @@ export const printerMixin = {
       if (!this.label) return;
       if (!this.selected_printer) return;
 
-      this.label.print(this.selected_printer);
+      try {
+        this.label.print(this.selected_printer)
+        let selected_registrant = this.selected_model(registrantModel);
+        this.saveImpression({
+          user_id: this.currentUser.id,
+          registrant_id: selected_registrant.id,
+          label_used: this.labelJson,
+          user_name: this.currentUser.name
+        }).then(
+          () => {
+            // refresh the selected registrant ...
+            this.fetch_model_by_id('registrant', selected_registrant.id);
+          }
+        )
+      } catch (err) {
+        this.checkEnvironment()
+        return null;
+      }
     },
     checkEnvironment() {
       console.debug("**** CHECK ENV")
@@ -123,7 +157,7 @@ export const printerMixin = {
     },
     initPrinter() {
       return new Promise(() => {
-        // Initialize the Dymo franework
+        // Initialize the Dymo framework
         dymo.label.framework.init(
           () => {
             // Get the environment for Dymo

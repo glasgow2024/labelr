@@ -7,6 +7,7 @@ import { userSessionStore } from './user_session.store';
 import { registrantStore, registrantEndpoints } from './registrant.store';
 
 import {printerStore} from './printer.store'
+import { impressionStore, impressionEndpoints } from './impression.store'
 import { searchStateStore } from "@/store/search_state.store";
 
 // Store for global app states
@@ -30,7 +31,8 @@ export const PATCH_RELATED = 'PATCH RELATED';
 export const PATCH_FIELDS = 'PATCH FIELDS';
 
 const endpoints = {
-  ...registrantEndpoints
+  ...registrantEndpoints,
+  ...impressionEndpoints
 }
 
 export const store = createStore({
@@ -51,7 +53,8 @@ export const store = createStore({
     ...userSessionStore.state,
     ...printerStore.state,
     ...searchStateStore.state,
-    ...appStore.state
+    ...appStore.state,
+    ...impressionStore.state
   },
   getters: {
     [SELECTED](state, getters) {
@@ -63,7 +66,8 @@ export const store = createStore({
     },
     ...userSessionStore.getters,
     ...searchStateStore.getters,
-    ...printerStore.getters
+    ...printerStore.getters,
+    ...impressionStore.getters
   },
   mutations: {
     [SELECT](state, { model, itemOrId }) {
@@ -77,6 +81,7 @@ export const store = createStore({
     },
     ...userSessionStore.mutations,
     ...printerStore.mutations,
+    ...impressionStore.mutations,
     ...searchStateStore.mutations,
     ...appStore.mutations
   },
@@ -187,6 +192,7 @@ export const store = createStore({
     },
     ...userSessionStore.actions,
     ...searchStateStore.actions,
-    ...printerStore.actions
+    ...printerStore.actions,
+    ...impressionStore.actions
   }
 });

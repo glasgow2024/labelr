@@ -1,4 +1,3 @@
-# Copyright (c) 2023 Henry Balen. All Rights Reserved.
 # frozen_string_literal: true
 class UsersController < ResourceController
   SERIALIZER_CLASS = 'UserSerializer'.freeze

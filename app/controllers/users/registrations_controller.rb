@@ -1,4 +1,3 @@
-# Copyright (c) 2023 Henry Balen. All Rights Reserved.
 # frozen_string_literal: true
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json

@@ -23,6 +23,15 @@
           <dd class="font-italic ml-2">{{ selected.address_country }}</dd>
         </dl>
       </div>
+      <h3 class="mt-4 mb-2">Impressions</h3>
+      <div class="row" v-for="impression in selected.impressions">
+        <div class="col-6">
+          {{ DateTime.fromISO(impression.date_printed).toFormat("DDD, t ZZZZ") }}
+        </div>
+        <div class="col-6">
+          {{ impression.user_name }}
+        </div>
+      </div>
     </template>
   </sidebar-vue>
 </template>
@@ -31,6 +40,7 @@
 import SidebarVue from '@/components/shared/sidebar_vue.vue';
 import { modelMixin } from '@/mixins/model.mixin';
 import printerMixin from "@/mixins/printer.mixin"
+import { DateTime } from 'luxon';
 
 export default {
   name: 'RegistrantSidebar',
@@ -43,7 +53,8 @@ export default {
   ],
   data() {
     return {
-      previewImage: null
+      previewImage: null,
+      DateTime
     }
   },
   computed: {

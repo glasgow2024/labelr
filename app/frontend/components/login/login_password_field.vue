@@ -1,4 +1,3 @@
-<!-- Copyright (c) 2023 Henry Balen. All Rights Reserved. -->
 <template>
   <b-form-group :id="formGroupId" :label="passwordLabel" :label-for="formInputId" :invalid-feedback="invalidMessage"
     :state="valid" :description="passwordDescription">

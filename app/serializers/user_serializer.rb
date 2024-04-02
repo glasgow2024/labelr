@@ -1,4 +1,3 @@
-# Copyright (c) 2023 Henry Balen. All Rights Reserved.
 class UserSerializer
   include JSONAPI::Serializer
 

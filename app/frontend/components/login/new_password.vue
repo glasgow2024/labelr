@@ -1,4 +1,3 @@
-<!-- Copyright (c) 2023 Henry Balen. All Rights Reserved. -->
 <template>
   <div class="new-password">
     <h3>Reset Password</h3>

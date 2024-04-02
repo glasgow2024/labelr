@@ -14,14 +14,11 @@ Rails.application.routes.draw do
   resources :users, path: 'user'
   get 'user/session/me', to: 'users#me'
 
+  resources :impressions, path: 'impression'
+
   get "registration/registrant/columns", to: 'registration/registrants#columns'
   namespace :registration do
     resources :registrants, path: 'registrant'
     resources :products, path: 'product'
   end
-
-  # Catch all for vue router
-  # get '*path', to: 'home#index', constraints: -> (request) do
-  #   !request.xhr? && request.format.html?
-  # end
 end

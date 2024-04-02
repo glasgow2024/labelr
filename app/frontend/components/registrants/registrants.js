@@ -7,6 +7,10 @@ export const registrant_columns = [
     stickyColumn: true
   },
   {
+    key: 'printed',
+    label: 'Printed',
+  },
+  {
     key: 'first_name',
     sortKey: 'first_name',
     label: 'First Name',

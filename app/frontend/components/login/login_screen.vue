@@ -1,4 +1,3 @@
-<!-- Copyright (c) 2023 Henry Balen. All Rights Reserved. -->
 <template>
   <router-view></router-view>
 </template>

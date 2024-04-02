@@ -1,4 +1,3 @@
-# Copyright (c) 2024 Henry Balen. All Rights Reserved.
 # frozen_string_literal: true
 require "securerandom"
 
