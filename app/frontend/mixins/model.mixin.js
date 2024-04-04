@@ -33,9 +33,7 @@ export const modelMixinNoProp = {
     fetch_by_id(id) {
       return this.$store.dispatch(FETCH_BY_ID, { model: this.model, id: id });
     },
-    // TODO: model needs to be passed in
     search(params) {
-      // console.debug("SEARCH, ", { model: this.model, params })
       return this.$store.dispatch(SEARCH, { model: this.model, params });
     },
     clear() {

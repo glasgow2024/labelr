@@ -263,6 +263,11 @@ export default {
     }
   },
   watch: {
+    filter(newVal, oldVal) {
+      if (newVal != oldVal) {
+        this.unselect();
+      }
+    },
     sortedCollection(nv, ov) {
       if (ov.length == 0 && nv.length > 0) {
         this.keep = false

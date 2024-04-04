@@ -1,10 +1,6 @@
 <template>
-  <b-card title="Printers" style="max-width: 50%;">
+  <b-card title="Printers" style="max-width: 50%;" class="shadow">
     <b-card-body>
-      <b-button variant="success" @click="refresh()">Check for Printers</b-button>
-      <!-- {{ selectedPrinter }} -->
-      {{ selected_printer }}
-      <!-- {{ options }} -->
       <b-form-select v-model="selected" @change="onChange" :options="options"></b-form-select>
     </b-card-body>
   </b-card>
@@ -20,12 +16,6 @@ export default {
       selected: null
     }
   },
-  // watch: {
-  //   selectedPrinter: function (newVal, oldVal) {
-  //     console.debug("****** ", newVal, oldVal)
-  //     this.selected_printer = newVal
-  //   },    
-  // },
   mixins: [
     printerMixin
   ],
@@ -48,9 +38,6 @@ export default {
   methods: {
     onChange(arg) {
       this.selectPrinter(arg)
-    },
-    refresh() {
-      this.getPrinters()
     }
   },
   mounted() {

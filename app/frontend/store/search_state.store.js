@@ -19,14 +19,12 @@ export const searchStateStore = {
   getters: {
     // Get the search state
     [GET_SEARCH_STATE]: (state) => (key) => {
-      // console.debug("** GET ", key)
       return state.currentSearchSettings[key]
     }
   },
   actions: {
     // Add search state
     [SET_SEARCH_STATE]({ commit }, { key, setting }) {
-      // console.debug("** SET ", key, setting)
       commit(COMMIT_SEARCH_STATE, { key: key, setting: setting })
     }
   }

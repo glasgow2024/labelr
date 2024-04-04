@@ -17,12 +17,12 @@
     <div class="row">
       <div class="col-12 px-0">
         <b-nav align="center" class="bg-dark text-white" v-if="loggedIn">
-          <b-nav-text v-if="environment && environment.errorDetails.length > 0" class="mr-3">{{ environment.errorDetails
+          <b-nav-text v-if="environment && environment.errorDetails.length > 0" class="mr-3 text-danger">{{ environment.errorDetails
             }}</b-nav-text>
           <b-nav-text v-else-if="allSystemsGo" class="mr-3">Good To Print!</b-nav-text>
           <b-nav-text v-else class="mr-3 text-danger">Unable to Print</b-nav-text>
           <b-nav-text v-if="selected_printer && (printers.length > 0)" class="mr-3">Printer: {{ selected_printer }}</b-nav-text>
-          <b-nav-text v-else class="mr-3">Printer: None Detected</b-nav-text>
+          <b-nav-text v-else class="mr-3 text-danger">Printer: None Detected</b-nav-text>
         </b-nav>
       </div>
     </div>

@@ -5,6 +5,7 @@
 # NOTE:
 # You will need to create volumes for the data to be persistent between runs
 #   docker volume create --name=labelr-pgdata
+#   docker volume create --name=labelr-redis-data
 #   docker volume create --name=labelr-node-modules
 #   docker volume create --name=labelr-mysqldata
 #
@@ -25,9 +26,18 @@ volumes:
     external: true
   labelr-mysqldata:
     external: true
+  labelr-redis-data:
+    external: true
   box: {} # used for the bundler, persistent store between runs
 
 services:
+  redis:
+    image: redis:alpine
+    volumes:
+      - labelr-redis-data:/data
+    ports:
+      - "6379:6379"
+
   # The database server - only needed for dev and test
   # The Postgre DB
   postgres:
@@ -74,6 +84,7 @@ services:
     links:
       - postgres
       - mailcatcher
+      - redis
 
   mysql:
     image: mysql:5.7

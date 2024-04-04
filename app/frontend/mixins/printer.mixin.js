@@ -111,7 +111,7 @@ export const printerMixin = {
         if (!this.label) return null;
         return this.label.render();
       } catch(err) {
-        this.checkEnvironment()
+        this.initPrinter()
         return null;
       }
     },
@@ -135,16 +135,14 @@ export const printerMixin = {
           }
         )
       } catch (err) {
-        this.checkEnvironment()
+        this.initPrinter()
         return null;
       }
     },
     checkEnvironment() {
-      console.debug("**** CHECK ENV")
       dymo.label.framework.checkEnvironment(
         (env) => {
           this.setEnvironment(env)
-          console.debug("*** ENV: ", env)
           if (env.errorDetails.length == 0) {
             // See if we can get the list of printers anyway
             this.getPrinters()
@@ -156,9 +154,13 @@ export const printerMixin = {
       )
     },
     initPrinter() {
+      this.selectPrinter(null)
+      this.setPrinters([])
+      dymo.label.framework.currentFramework = null
+
       return new Promise(() => {
         // Initialize the Dymo framework
-        dymo.label.framework.init(
+        let frm = dymo.label.framework.init(
           () => {
             // Get the environment for Dymo
             this.checkEnvironment()

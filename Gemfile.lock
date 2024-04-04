@@ -70,6 +70,7 @@ GEM
     bcrypt (3.1.20)
     builder (3.2.4)
     concurrent-ruby (1.2.3)
+    connection_pool (2.4.1)
     crass (1.0.6)
     cypress-rails (0.7.0)
       puma (>= 3.8.0)
@@ -79,7 +80,7 @@ GEM
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
     date (3.3.4)
-    debug (1.9.1)
+    debug (1.9.2)
       irb (~> 1.10)
       reline (>= 0.3.8)
     devise (4.9.3)
@@ -98,7 +99,7 @@ GEM
     irb (1.12.0)
       rdoc
       reline (>= 0.4.2)
-    json (2.7.1)
+    json (2.7.2)
     jsonapi-serializer (2.2.0)
       activesupport (>= 4.2)
     jsonapi.rb (2.0.1)
@@ -194,13 +195,15 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rainbow (3.1.1)
-    rake (13.1.0)
+    rake (13.2.0)
     ransack (4.1.1)
       activerecord (>= 6.1.5)
       activesupport (>= 6.1.5)
       i18n
     rdoc (6.6.3.1)
       psych (>= 4.0.0)
+    redis-client (0.21.1)
+      connection_pool
     regexp_parser (2.9.0)
     reline (0.5.0)
       io-console (~> 0.5)
@@ -222,6 +225,11 @@ GEM
     rubocop-ast (1.31.2)
       parser (>= 3.3.0.4)
     ruby-progressbar (1.13.0)
+    sidekiq (7.2.2)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      rack (>= 2.2.4)
+      redis-client (>= 0.19.0)
     stringio (3.1.0)
     thor (1.3.1)
     timeout (0.4.1)
@@ -265,6 +273,7 @@ DEPENDENCIES
   rails (~> 7.0.8, >= 7.0.8.1)
   ransack
   rubocop
+  sidekiq
   tzinfo-data
   vite_plugin_legacy
   vite_rails (~> 3.0)

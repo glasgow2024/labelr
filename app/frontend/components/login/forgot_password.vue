@@ -2,7 +2,6 @@
   <div class="row justify-content-center mt-5">
     <div class="col-md-6">
       <h3>Set/Reset Password</h3>
-      <p>Don't worry, this happens to the best of us.</p>
       <p>
         If an account with this address exists, you will receive an email with a
         link to complete the password process.
@@ -11,7 +10,7 @@
         alert.text
       }}</b-alert>
       <b-form @submit="onSubmit">
-        <email-field v-model="person.email" @validated="form.email.valid = $event"
+        <email-field v-model="user.email" @validated="form.email.valid = $event"
           :validateNow="form.email.validate"></email-field>
         <div class="d-flex flex-row-reverse">
           <b-button :disabled="submitDisabled" type="submit" variant="primary" class="px-5">Send me a link</b-button>
@@ -37,7 +36,7 @@ export default {
   name: "ForgotPassword",
   mixins: [],
   data: () => ({
-    person: {
+    user: {
       email: "",
     },
     alert: {
@@ -70,7 +69,7 @@ export default {
         this.error.visible = true;
       } else {
         http
-          .post("/auth/password.json", { person: this.person })
+          .post("/auth/password.json", { user: this.user })
           .then((data) => {
             this.successfullySent = data.status === 201;
             if (this.successfullySent) {

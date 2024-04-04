@@ -1,5 +1,5 @@
 <template>
-  <b-card title="Status" style="max-width: 20rem;">
+  <b-card title="Status" style="max-width: 20rem;" class="shadow">
     <b-card-body>
       <div>
         Is Browser Supported

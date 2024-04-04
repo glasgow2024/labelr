@@ -24,6 +24,8 @@ gem 'jsonapi.rb'
 gem "nokogiri"
 gem 'pundit'
 gem 'ransack'
+gem "sidekiq"
+# gem "sidekiq-scheduler"
 gem "vite_rails", "~> 3.0"
 gem 'vite_plugin_legacy'
 

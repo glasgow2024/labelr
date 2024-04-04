@@ -1,33 +1,35 @@
 <template>
-  <div class="new-password">
-    <h3>Reset Password</h3>
-    <p>In order to protect your account, make sure your password:</p>
-    <ul>
-      <li>Is 6 or more characters</li>
-      <li>Does not contain the word "password"</li>
-      <li>Does not contain your email address</li>
-      <li>Is not one of your most recent passwords</li>
-      <li>
-        Is not a member of this
-        <a href="https://nordpass.com/most-common-passwords-list/" target="_blank">list of common passwords</a>
-      </li>
-    </ul>
-    <p>
-      Optionally, we recommend you follow the
-      <a href="https://xkcd.com/936/" target="_blank">Correct Horse Battery Staple</a>
-      paradigm.
-    </p>
-    <b-form @submit="onSubmit">
-      <b-alert :show="error.visible" variant="danger" v-html="error.text"></b-alert>
-      <login-password-field v-model="person.password" :new-password="true" @validated="form.password.valid = $event"
-        :validateNow="form.password.validate"></login-password-field>
-      <login-password-field v-model="person.password_confirmation" :confirmation="true" :must-match="person.password"
-        @validated="form.passwordConfirmation.valid = $event"
-        :validateNow="form.passwordConfirmation.validate"></login-password-field>
-      <div class="d-flex flex-row-reverse">
-        <b-button type="submit" variant="primary" class="px-5">Change Password</b-button>
-      </div>
-    </b-form>
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <h3>Reset Password</h3>
+      <p>In order to protect your account, make sure your password:</p>
+      <ul>
+        <li>Is 6 or more characters</li>
+        <li>Does not contain the word "password"</li>
+        <li>Does not contain your email address</li>
+        <li>Is not one of your most recent passwords</li>
+        <li>
+          Is not a member of this
+          <a href="https://nordpass.com/most-common-passwords-list/" target="_blank">list of common passwords</a>
+        </li>
+      </ul>
+      <p>
+        Optionally, we recommend you follow the
+        <a href="https://xkcd.com/936/" target="_blank">Correct Horse Battery Staple</a>
+        paradigm.
+      </p>
+      <b-form @submit="onSubmit">
+        <b-alert :show="error.visible" variant="danger" v-html="error.text"></b-alert>
+        <login-password-field v-model="user.password" :new-password="true" @validated="form.password.valid = $event"
+          :validateNow="form.password.validate"></login-password-field>
+        <login-password-field v-model="user.password_confirmation" :confirmation="true" :must-match="user.password"
+          @validated="form.passwordConfirmation.valid = $event"
+          :validateNow="form.passwordConfirmation.validate"></login-password-field>
+        <div class="d-flex flex-row-reverse">
+          <b-button type="submit" variant="primary" class="px-5">Change Password</b-button>
+        </div>
+      </b-form>
+    </div>
   </div>
 </template>
 
@@ -41,9 +43,6 @@ import {
 } from "@/constants/strings";
 import LoginPasswordField from "@/components/login/login_password_field.vue";
 import { validateFields } from "@/utils/utils.js";
-// import Tr from "@/i18n/translation"
-
-// import settingsMixin from "@/store/settings.mixin";
 
 export default {
   name: "NewPassword",
@@ -54,7 +53,7 @@ export default {
     // settingsMixin
   ],
   data: () => ({
-    person: {
+    user: {
       password: "",
       password_confirmation: "",
       reset_password_token: "",
@@ -76,7 +75,7 @@ export default {
     resetPasswordLink: `<a href="/#/login/forgot">Reset Password</a>`,
   }),
   mounted: function () {
-    this.person.reset_password_token = this.$route.query.reset_password_token;
+    this.user.reset_password_token = this.$route.query.reset_password_token;
   },
   methods: {
     onSubmit: async function (event) {
@@ -86,7 +85,7 @@ export default {
         this.form.password.valid === false ||
         this.form.passwordConfirmation.valid === false
       ) {
-        if (this.person.password.length < 1) {
+        if (this.user.password.length < 1) {
           this.error.text = LOGIN_MISSING_NEW_PASSWORD;
         } else if (this.form.password.valid === false) {
           this.error.text = LOGIN_PASSWORD_INVALID;
@@ -96,7 +95,7 @@ export default {
         this.error.visible = true;
       } else {
         http
-          .put("/auth/password.json", { person: this.person })
+          .put("/auth/password.json", { user: this.user })
           .then((data) => {
             if (data.status === 204) {
               this.$router.push(`/?alert=password_changed`);
