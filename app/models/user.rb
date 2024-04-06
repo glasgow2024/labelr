@@ -5,4 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :impressions, class_name: "Impression", foreign_key: "user_id"
+
+  enum role: {
+    staff: 'staff',
+    admin: 'admin'
+  }
 end

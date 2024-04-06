@@ -17,6 +17,7 @@ class ImpressionsController < ResourceController
       date_printed
       label_used
       user_name
+      label_type
     ]
   end
 end

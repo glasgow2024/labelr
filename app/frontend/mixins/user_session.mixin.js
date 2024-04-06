@@ -8,6 +8,9 @@ export const userSessionMixin = {
     }),
     loggedIn() {
       return !!this.currentUser.id
+    },
+    isAdmin() {
+      return this.currentUser && (this.currentUser.role == 'admin')
     }
   },
   methods: {

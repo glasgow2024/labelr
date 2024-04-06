@@ -13,6 +13,7 @@ import ForgotPassword from '@/components/login/forgot_password.vue'
 import Login from '@/components/login/login.vue';
 import NewPassword from '@/components/login/new_password.vue';
 import RegistrantsManage from '@/components/registrants/registrants_manage.vue';
+import UsersManage from '@/components/users/users_manage.vue';
 
 import PrinterManage from '@/components/printer/printer_manage.vue';
 
@@ -45,6 +46,13 @@ export const router = createRouter({
     {
       path: '/registrants',
       component: RegistrantsManage,
+      meta: {
+        requiresAuth: true
+      }
+    },    
+    {
+      path: '/users',
+      component: UsersManage,
       meta: {
         requiresAuth: true
       }

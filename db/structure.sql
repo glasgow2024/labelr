@@ -10,13 +10,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: public; Type: SCHEMA; Schema: -; Owner: -
---
-
--- *not* creating schema, since initdb creates it
-
-
---
 -- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -28,6 +21,26 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
 --
 
 COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
+
+
+--
+-- Name: label_type_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.label_type_enum AS ENUM (
+    'member',
+    'staff'
+);
+
+
+--
+-- Name: user_role_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.user_role_enum AS ENUM (
+    'staff',
+    'admin'
+);
 
 
 SET default_tablespace = '';
@@ -59,7 +72,8 @@ CREATE TABLE public.impressions (
     label_used jsonb,
     lock_version integer,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    label_type public.label_type_enum DEFAULT 'member'::public.label_type_enum
 );
 
 
@@ -93,7 +107,9 @@ CREATE TABLE public.users (
     current_sign_in_ip character varying,
     last_sign_in_ip character varying,
     failed_attempts integer DEFAULT 0 NOT NULL,
-    locked_at timestamp(6) without time zone
+    locked_at timestamp(6) without time zone,
+    is_locked boolean DEFAULT false NOT NULL,
+    role public.user_role_enum DEFAULT 'staff'::public.user_role_enum
 );
 
 
@@ -153,6 +169,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20240311212210'),
 ('20240311212226'),
 ('20240312132228'),
-('20240401180351');
+('20240401180351'),
+('20240405152116'),
+('20240405202523'),
+('20240406202216');
 
 

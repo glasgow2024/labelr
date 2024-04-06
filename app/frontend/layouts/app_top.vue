@@ -5,6 +5,7 @@
         <b-navbar toggleable="lg" type="dark" variant="secondary">
           <b-navbar-brand to="/">Labelr</b-navbar-brand>
           <b-navbar-nav class="ml-auto">
+            <b-nav-item :disabled="!isAdmin" to="/users" class="mr-5">Users</b-nav-item>
             <b-nav-text class="mr-3" v-if="loggedIn">Logged in as: {{currentUser.email ? currentUser.email :
               ''}}</b-nav-text>
             <b-nav-form v-if="loggedIn">

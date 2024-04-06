@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'securerandom'
+
 class UsersController < ResourceController
   SERIALIZER_CLASS = 'UserSerializer'.freeze
   POLICY_CLASS = 'UserPolicy'.freeze
@@ -16,6 +18,10 @@ class UsersController < ResourceController
     render_object(me, serializer: UserSessionSerializer)
   end
 
+  def before_save
+    @object.password = SecureRandom.hex(16) unless @object.password
+  end
+
   def allowed_params
     %i[
       id
@@ -23,6 +29,9 @@ class UsersController < ResourceController
       name
       email
       user
+      password
+      password_confirmation
+      role
     ]
   end
 end
