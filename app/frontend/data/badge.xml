@@ -70,7 +70,7 @@
               <TextSpan>
                 <Text>999999</Text>
                 <FontInfo>
-                  <FontName>Tahoma</FontName>
+                  <FontName>Noto Sans CJK JP</FontName>
                   <FontSize>10</FontSize>
                   <IsBold>False</IsBold>
                   <IsItalic>False</IsItalic>
@@ -139,7 +139,7 @@
               <TextSpan>
                 <Text>Member Country</Text>
                 <FontInfo>
-                  <FontName>Tahoma</FontName>
+                  <FontName>Noto Sans CJK JP</FontName>
                   <FontSize>10</FontSize>
                   <IsBold>False</IsBold>
                   <IsItalic>False</IsItalic>
@@ -208,7 +208,7 @@
               <TextSpan>
                 <Text>Member Badge Title</Text>
                 <FontInfo>
-                  <FontName>Tahoma</FontName>
+                  <FontName>Noto Sans CJK JP</FontName>
                   <FontSize>8</FontSize>
                   <IsBold>False</IsBold>
                   <IsItalic>False</IsItalic>
@@ -277,8 +277,8 @@
               <TextSpan>
                 <Text>Member First Name</Text>
                 <FontInfo>
-                  <FontName>Tahoma</FontName>
-                  <FontSize>22</FontSize>
+                  <FontName>Noto Sans CJK JP</FontName>
+                  <FontSize>21</FontSize>
                   <IsBold>True</IsBold>
                   <IsItalic>False</IsItalic>
                   <IsUnderline>False</IsUnderline>
