@@ -8,7 +8,10 @@
       <div class="mx-auto" style="width: 400px;">
         <img id="labelImage" :src="preview" />
       </div>
-      <b-button variant="success" @click="onPrint()">Print</b-button>
+      <div class="d-flex justify-content-between my-3">
+        <b-button variant="success" @click="onPrint()">Print</b-button>
+        <b-button variant="success" @click="onRefresh()">Refresh</b-button>
+      </div>
       <div>
         <dl>
           <dt>Ticket Number</dt>
@@ -114,6 +117,9 @@ export default {
   methods: {
     onPrint() {
       this.doPrint()
+    },
+    onRefresh() {
+      this.fetchSelected()
     }
   }
 }

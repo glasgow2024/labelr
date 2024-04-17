@@ -1,6 +1,6 @@
 import { mapActions } from 'vuex';
 // import { toastMixin } from "@/mixins";
-import { SELECTED, SELECT, UNSELECT, FETCH, FETCH_BY_ID, CLEAR, SEARCH, PATCH_FIELDS, SAVE, DELETE } from "@/store/model.store";
+import { SELECTED, SELECT, UNSELECT, FETCH, FETCH_SELECTED, FETCH_BY_ID, CLEAR, SEARCH, PATCH_FIELDS, SAVE, DELETE } from "@/store/model.store";
 import { MODEL_SAVE_ERROR, MODEL_SAVE_SUCCESS, MODEL_DELETE_SUCCESS, MODEL_DELETE_ERROR } from "@/constants/strings";
 
 export const modelMixinNoProp = {

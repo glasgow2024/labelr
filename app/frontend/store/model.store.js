@@ -165,6 +165,7 @@ export const store = createStore({
       }
     },
     [FETCH_SELECTED]({ state, dispatch }, { model }) {
+      console.debug("**** FETCH SELECTED")
       if (!state.selected[model]) {
         return Promise.reject(`No ${model} selected`)
       }
