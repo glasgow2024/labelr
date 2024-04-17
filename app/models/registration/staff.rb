@@ -5,9 +5,10 @@ class Registration::Staff < Registration::RegistrationRecord
   #'{"op":"all","queries":[["product_id", "!=", "1"], ["product_id", "!=", "25"], ["product_id", "!=", "35"]]}'
   # 25 - WSFS only supporting
   # 35 - Chengdu members
+  # 52 - Staff members
   # attending status
   # TODO: get new data and change the product id for staff product
-  default_scope { where("attending_status != 1") }
+  default_scope { where("product_id = 52") }
 
   belongs_to :product, class_name: 'Registration::Product'
 

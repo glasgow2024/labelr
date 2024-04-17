@@ -82,14 +82,21 @@ export const printerMixin = {
       this.labelJson = { name: name, number: number, country: country, title: title }
 
       if (name) {
-        if (name.length < 19) {
+        let split_name = this.split_name(name);
+        if (split_name.splits == 0) {
           var el = this.getObjectByNameElement(label, 'MemberName')
           var FormattedText = dymo.xml.getElement(el, "FormattedText");
           var fontSize = dymo.xml.getElements(FormattedText, "FontSize")
           fontSize[0].textContent = 24
         }
+        if (split_name.splits == 2) {
+          var el = this.getObjectByNameElement(label, 'MemberName')
+          var FormattedText = dymo.xml.getElement(el, "FormattedText");
+          var fontSize = dymo.xml.getElements(FormattedText, "FontSize")
+          fontSize[0].textContent = 12
+        }
 
-        label.setObjectText('MemberName', this.split_name(name));
+        label.setObjectText('MemberName', split_name.name);
       } else {
         label.setObjectText('MemberName', "");
       }
@@ -112,26 +119,25 @@ export const printerMixin = {
       return label;
     },
     split_name(name) {
-      if (name.length < 19) return name;
+      if (name.length < 19) return { name: name, splits: 0 };
 
       let elements = name.split(' ')
       let res = ""
-      let count = 0
-      let split = false
+      let splits = 0
 
       elements.forEach(
         (s) => {
-          if ((res.length + s.length < 18) || split) {
-            res = `${res} ${s}`
-            count = res.length
-          } else {
-            split = true
+          if ((Math.floor((res.length + s.length) / 18) != splits)) {
+            console.debug("****** ", splits, Math.floor((res.length + s.length) / 18))
             res = `${res}\n${s}`
+            splits += 1
+          } else {
+            res = `${res} ${s}`
           }
         }
       )
 
-      return res;
+      return {name: res, splits: splits};
     },
     generatePreview({name ="", number = "", country = "", title = ""}) {
       try {

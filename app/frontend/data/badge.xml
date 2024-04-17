@@ -70,7 +70,7 @@
               <TextSpan>
                 <Text>999999</Text>
                 <FontInfo>
-                  <FontName>Noto Sans CJK JP</FontName>
+                  <FontName>Arial Unicode MS</FontName>
                   <FontSize>10</FontSize>
                   <IsBold>False</IsBold>
                   <IsItalic>False</IsItalic>
@@ -139,7 +139,7 @@
               <TextSpan>
                 <Text>Member Country</Text>
                 <FontInfo>
-                  <FontName>Noto Sans CJK JP</FontName>
+                  <FontName>Arial Unicode MS</FontName>
                   <FontSize>10</FontSize>
                   <IsBold>False</IsBold>
                   <IsItalic>False</IsItalic>
@@ -208,7 +208,7 @@
               <TextSpan>
                 <Text>Member Badge Title</Text>
                 <FontInfo>
-                  <FontName>Noto Sans CJK JP</FontName>
+                  <FontName>Arial Unicode MS</FontName>
                   <FontSize>8</FontSize>
                   <IsBold>False</IsBold>
                   <IsItalic>False</IsItalic>
@@ -277,7 +277,7 @@
               <TextSpan>
                 <Text>Member Name</Text>
                 <FontInfo>
-                  <FontName>Noto Sans CJK JP</FontName>
+                  <FontName>Arial Unicode MS</FontName>
                   <FontSize>19</FontSize>
                   <IsBold>True</IsBold>
                   <IsItalic>False</IsItalic>
