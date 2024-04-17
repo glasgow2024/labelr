@@ -52,6 +52,27 @@ export const printerMixin = {
         return [];
       }
     },
+
+    getObjectElements(label) {
+      var objectTypes = ["TextObject"];
+      return goog.dom.findNodes(label._doc.documentElement, function (n) {
+        return n.nodeType == goog.dom.NodeType.ELEMENT && goog.array.indexOf(objectTypes, n.tagName) >= 0;
+      });
+    },
+
+    getObjectByNameElement(label, objectName) {
+      var objects = this.getObjectElements(label);
+
+      for (var i = 0; i < objects.length; i++) {
+        var elem = objects[i];
+        var name = dymo.xml.getElementText(dymo.xml.getElement(elem, "Name"));
+        if (name == objectName)
+          return elem;
+      }
+
+      return null;
+    },
+
     generateLabel({ name = "", number = "", country = "", title = "" }) {
       let label = dymo.label.framework.openLabelXml(this.badgexml)
       let valid = label.isValidLabel();
@@ -61,6 +82,13 @@ export const printerMixin = {
       this.labelJson = { name: name, number: number, country: country, title: title }
 
       if (name) {
+        if (name.length < 19) {
+          var el = this.getObjectByNameElement(label, 'MemberName')
+          var FormattedText = dymo.xml.getElement(el, "FormattedText");
+          var fontSize = dymo.xml.getElements(FormattedText, "FontSize")
+          fontSize[0].textContent = 24
+        }
+
         label.setObjectText('MemberName', this.split_name(name));
       } else {
         label.setObjectText('MemberName', "");

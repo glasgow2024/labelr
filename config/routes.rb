@@ -17,7 +17,9 @@ Rails.application.routes.draw do
   resources :impressions, path: 'impression'
 
   get "registration/registrant/columns", to: 'registration/registrants#columns'
+  get "registration/staff/columns", to: 'registration/staff#columns'
   namespace :registration do
+    resources :staff, path: 'staff'
     resources :registrants, path: 'registrant'
     resources :products, path: 'product'
   end

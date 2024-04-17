@@ -224,12 +224,12 @@
           </FormattedText>
           <ObjectLayout>
             <DYMOPoint>
-              <X>0.2586415</X>
-              <Y>0.919083</Y>
+              <X>0.2086415</X>
+              <Y>0.94</Y>
             </DYMOPoint>
             <Size>
               <Width>3.181358</Width>
-              <Height>0.1375833</Height>
+              <Height>0.12</Height>
             </Size>
           </ObjectLayout>
         </TextObject>
@@ -275,10 +275,10 @@
             <IsVertical>False</IsVertical>
             <LineTextSpan>
               <TextSpan>
-                <Text>Member First Name</Text>
+                <Text>Member Name</Text>
                 <FontInfo>
                   <FontName>Noto Sans CJK JP</FontName>
-                  <FontSize>21</FontSize>
+                  <FontSize>19</FontSize>
                   <IsBold>True</IsBold>
                   <IsItalic>False</IsItalic>
                   <IsUnderline>False</IsUnderline>
@@ -294,11 +294,11 @@
           <ObjectLayout>
             <DYMOPoint>
               <X>0.2301894</X>
-              <Y>0.245512</Y>
+              <Y>0.14</Y>
             </DYMOPoint>
             <Size>
               <Width>3.204437</Width>
-              <Height>0.6837877</Height>
+              <Height>0.75</Height>
             </Size>
           </ObjectLayout>
         </TextObject>

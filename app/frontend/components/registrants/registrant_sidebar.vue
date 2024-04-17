@@ -1,7 +1,7 @@
 <template>
   <sidebar-vue :model="model">
     <template #header v-if="selected">
-      <h1>{{ selected.first_name }} {{ selected.last_name }}</h1>
+      <h1>{{ badge_name }} <small>({{ selected.first_name }} {{ selected.last_name }})</small></h1>
       <div>Attending: {{attending_status}}</div>
     </template>
     <template #content v-if="selected">
@@ -19,6 +19,8 @@
           <dd class="font-italic ml-2">{{ selected.preferred_name_first }} {{ selected.preferred_name_last }}</dd>
           <dt>Badge Name</dt>
           <dd class="font-italic ml-2">{{ selected.badge }}</dd>
+          <dt>Badge Title</dt>
+          <dd class="font-italic ml-2">{{ selected.badge_title }}</dd>
           <dt>Country</dt>
           <dd class="font-italic ml-2">{{ selected.address_country }}</dd>
         </dl>
