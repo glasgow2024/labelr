@@ -2,6 +2,7 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 import { SET_PRINTERS, SELECT_PRINTER, SET_ENVIRONMENT } from '@/store/printer.store'
 import { NEW_IMPRESSION } from '@/store/impression.store'
 import badgeXML from '@/data/badge.xml?raw'
+import staffBadgeXML from '@/data/staffBadge.xml?raw'
 import userSessionMixin from "@/mixins/user_session.mixin"
 import modelUtilsMixin from '@/mixins/model_utils.mixin';
 import { registrantModel } from '@/store/registrant.store'
@@ -14,6 +15,8 @@ export const printerMixin = {
   data() {
     return {
       badgexml: badgeXML,
+      staffBadgeXML: staffBadgeXML,
+      labelType: 'member', // or staff
       label: null,
       labelJson: {}
     }
@@ -73,14 +76,7 @@ export const printerMixin = {
       return null;
     },
 
-    generateLabel({ name = "", number = "", country = "", title = "" }) {
-      let label = dymo.label.framework.openLabelXml(this.badgexml)
-      let valid = label.isValidLabel();
-
-      if (!valid) return null;
-
-      this.labelJson = { name: name, number: number, country: country, title: title }
-
+    setMemberName(label, name) {
       if (name) {
         let split_name = this.split_name(name);
         if (split_name.splits == 0) {
@@ -100,6 +96,18 @@ export const printerMixin = {
       } else {
         label.setObjectText('MemberName', "");
       }
+    },
+
+    generateMemberLabel({ name = "", number = "", country = "", title = "" }) {
+      let label = dymo.label.framework.openLabelXml(this.badgexml)
+      let valid = label.isValidLabel();
+
+      if (!valid) return null;
+
+      this.labelJson = { name: name, number: number, country: country, title: title }
+
+      this.setMemberName(label, name)
+      
       if (number) {
         label.setObjectText('MembershipNumber', number);
       } else {
@@ -118,6 +126,36 @@ export const printerMixin = {
 
       return label;
     },
+
+    generateStaffLabel({ name: name, position: position, division: division }) {
+      console.debug("***** STAFF LABEL")
+      let label = dymo.label.framework.openLabelXml(this.staffBadgeXML)
+      let valid = label.isValidLabel();
+      console.debug("***** STAFF LABEL", valid)
+
+      if (!valid) return null;
+
+      this.labelJson = { name: name, position: position, division: division }
+
+      this.setMemberName(label, name)
+      // label.setObjectText('memberName', name);
+
+      if (position) {
+        label.setObjectText('staffPosition', position);
+      } else {
+        label.setObjectText('staffPosition', "");
+      }
+      if (division) {
+        label.setObjectText('staffDivision', division);
+      } else {
+        label.setObjectText('staffDivision', "");
+      }
+
+      console.debug("***** STAFF LABEL", label)
+
+      return label;
+    },
+
     split_name(name) {
       if (name.length < 19) return { name: name, splits: 0 };
 
@@ -128,7 +166,6 @@ export const printerMixin = {
       elements.forEach(
         (s) => {
           if ((Math.floor((res.length + s.length) / 18) != splits)) {
-            console.debug("****** ", splits, Math.floor((res.length + s.length) / 18))
             res = `${res}\n${s}`
             splits += 1
           } else {
@@ -139,9 +176,21 @@ export const printerMixin = {
 
       return {name: res, splits: splits};
     },
+
+    generateStaffPreview({ name = "", position = "", division = ""}) {
+      try {
+        this.label = this.generateStaffLabel({ name: name, position: position, division: division });
+        console.debug("*** WE HAVE LABEL", this.label)
+        if (!this.label) return null;
+        return this.label.render();
+      } catch (err) {
+        this.initPrinter()
+        return null;
+      }
+    },
     generatePreview({name ="", number = "", country = "", title = ""}) {
       try {
-        this.label = this.generateLabel({ name: name, number: number, country: country, title: title });
+        this.label = this.generateMemberLabel({ name: name, number: number, country: country, title: title });
         if (!this.label) return null;
         return this.label.render();
       } catch(err) {
@@ -161,7 +210,8 @@ export const printerMixin = {
           user_id: this.currentUser.id,
           registrant_id: selected_registrant.id,
           label_used: this.labelJson,
-          user_name: this.currentUser.name
+          user_name: this.currentUser.name,
+          label_type: this.labelType
         }).then(
           () => {
             // refresh the selected registrant ...

@@ -13,7 +13,11 @@ class Registration::Staff < Registration::RegistrationRecord
   belongs_to :product, class_name: 'Registration::Product'
 
   # Change to filter on type
-  has_many :impressions, class_name: "Impression", foreign_key: "registrant_id"
+  has_many :impressions,
+            -> {
+              where("impressions.label_type = 'staff'")
+            },
+            class_name: "Impression", foreign_key: "registrant_id"
 
   # Make sure that the data is treated as read only
   def readonly?

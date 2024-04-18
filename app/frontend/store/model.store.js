@@ -5,6 +5,7 @@ import { getId } from '@/utils/utils';
 
 import { userSessionStore } from './user_session.store';
 import { registrantStore, registrantEndpoints } from './registrant.store';
+import { staffStore, staffEndpoints } from './staff.store';
 
 import {printerStore} from './printer.store'
 import { impressionStore, impressionEndpoints } from './impression.store'
@@ -33,6 +34,7 @@ export const PATCH_FIELDS = 'PATCH FIELDS';
 
 const endpoints = {
   ...registrantEndpoints,
+  ...staffEndpoints,
   ...impressionEndpoints,
   ...userEndpoints
 }
@@ -49,7 +51,8 @@ export const store = createStore({
   },
   state: {
     selected: {
-      ...registrantStore.selected
+      ...registrantStore.selected,
+      ...staffStore.selected
     },
     // ...registrantStore.state,
     ...userSessionStore.state,

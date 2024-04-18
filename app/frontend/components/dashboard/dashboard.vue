@@ -14,10 +14,18 @@
           </b-card>
           <b-card no-body title="Print Labels" tag="labels" class="shadow">
             <b-card-body>
-              Print labels for members of the convention
+              Print labels for Members of the convention
             </b-card-body>
             <b-card-footer>
-              <b-button href="#registrants" variant="primary">Go Print Labels</b-button>
+              <b-button href="#registrants" variant="primary">Go Print Member Labels</b-button>
+            </b-card-footer>
+          </b-card>
+          <b-card no-body title="Print Labels" tag="labels" class="shadow">
+            <b-card-body>
+              Print labels for Staff of the convention
+            </b-card-body>
+            <b-card-footer>
+              <b-button href="#staff" variant="primary">Go Print Staff Labels</b-button>
             </b-card-footer>
           </b-card>
         </b-card-group>

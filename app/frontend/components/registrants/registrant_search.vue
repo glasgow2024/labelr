@@ -6,7 +6,7 @@
           <b-icon icon="search" />
         </b-input-group-text>
       </b-input-group-prepend>
-      <b-form-input type="text" v-model="registrant_text" debounce="500" v-on:keyup.enter="onSearch"></b-form-input>
+      <b-form-input type="text" v-model="search_text" debounce="500" v-on:keyup.enter="onSearch"></b-form-input>
       <b-input-group-append>
         <b-button variant="primary" @click="onSearch">Search</b-button>
       </b-input-group-append>
@@ -25,7 +25,7 @@ const SAVED_SEARCH_STATE = "REGISTRANT SEARCH STATE";
 export default {
   name: "RegistrantSearch",
   data: () => ({
-    registrant_text: null,
+    search_text: null,
     product_id: null,
     attending_status: null,
     match: 'all',
@@ -42,18 +42,19 @@ export default {
         "queries": []
       }
 
-      if (this.registrant_text) {
+      if (this.search_text) {
+        // TODO: add number and email
         queries["queries"].push(
           {
             "op": "any",
             "queries": [
-              ["first_name", "contains", this.registrant_text],
-              ["last_name", "contains", this.registrant_text],
-              ["preferred_name_first", "contains", this.registrant_text],
-              ["preferred_name_last", "contains", this.registrant_text],
-              ["badge", "contains", this.registrant_text],
-              ["badge_title", "contains", this.registrant_text],
-              ["address_country", "contains", this.registrant_text],
+              ["first_name", "contains", this.search_text],
+              ["last_name", "contains", this.search_text],
+              ["preferred_name_first", "contains", this.search_text],
+              ["preferred_name_last", "contains", this.search_text],
+              ["badge", "contains", this.search_text],
+              ["badge_title", "contains", this.search_text],
+              ["address_country", "contains", this.search_text],
             ]
           }
         )
@@ -79,7 +80,7 @@ export default {
       this.setSearchState({
         key: SAVED_SEARCH_STATE,
         setting: {
-          registrant_text: this.registrant_text,
+          search_text: this.search_text,
           product_id: this.product_id,
           attending_status: this.attending_status
         }
@@ -89,7 +90,7 @@ export default {
     init() {
       let saved = this.getSearchState()(SAVED_SEARCH_STATE)
       if (saved) {
-        this.registrant_text = saved.registrant_text
+        this.search_text = saved.search_text
         this.product_id = saved.product_id
         this.attending_status = saved.attending_status
       }

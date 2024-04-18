@@ -8,11 +8,10 @@
 <script>
 import RegistrantsTable from './registrants_table.vue';
 import RegistrantSidebar from './registrant_sidebar.vue';
-import { registrantModel as model } from '@/store/registrant.store'
-// import { staffModel as model } from '@/store/staff.store'
+import { staffModel as model } from '@/store/staff.store'
 
 export default {
-  name: "RegistrantsManage",
+  name: "StaffManage",
   data: () => ({
     model
   }),

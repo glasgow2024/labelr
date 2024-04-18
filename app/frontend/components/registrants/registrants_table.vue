@@ -33,7 +33,6 @@
 import Modal from '@/components/shared/modal.vue';
 import TableVue from '@/components/shared/table_vue.vue';
 import { registrant_columns as columns } from './registrants';
-import { registrantModel as model } from '@/store/registrant.store'
 import RegistrantSearch from "./registrant_search.vue"
 
 export default {
@@ -43,9 +42,14 @@ export default {
     Modal,
     RegistrantSearch
   },
+  props: {
+    model: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
-    columns,
-    model
+    columns
   }),
   methods: {
     onSearchChanged(arg) {

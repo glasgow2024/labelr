@@ -10,12 +10,13 @@ export const impressionEndpoints = {
 
 export const impressionStore = {
   actions: {
-    [NEW_IMPRESSION]({ dispatch }, { user_id, registrant_id, label_used, user_name }) {
+    [NEW_IMPRESSION]({ dispatch }, { user_id, registrant_id, label_used, user_name, label_type }) {
       let newImpression = {
         user_id: user_id,
         registrant_id: registrant_id,
         label_used: label_used,
-        user_name: user_name
+        user_name: user_name,
+        label_type: label_type
       }
 
       return dispatch(NEW, { model: impressionModel, selected: false, ...newImpression });

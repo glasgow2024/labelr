@@ -1,7 +1,7 @@
 <template>
   <sidebar-vue :model="model">
     <template #header v-if="selected">
-      <h1>{{ badge_name }} <small>({{ selected.first_name }} {{ selected.last_name }})</small></h1>
+      <h2>{{ badge_name }} <small>({{ selected.first_name }} {{ selected.last_name }})</small></h2>
       <div>Attending: {{attending_status}}</div>
     </template>
     <template #content v-if="selected">
@@ -96,18 +96,30 @@ export default {
     badge_content: function() {
       if (!this.selected) return null;
 
-      return {
-        name: this.badge_name,
-        number: this.selected.ticket_number,
-        country: this.selected.address_country,
-        title: this.selected.badge_title
+      if (this.model == 'staff') {
+        return {
+          name: this.badge_name,
+          position: this.selected.badge_title,
+          division: this.selected.address_country,
+        }
+      } else {
+        return {
+          name: this.badge_name,
+          number: this.selected.ticket_number,
+          country: this.selected.address_country,
+          title: this.selected.badge_title
+        }
       }
     },
     preview: function () {
-      // this.generateLabel({ name: selected.first_name + selected.last_name, number: "1111" });
-      this.previewImage = this.generatePreview(this.badge_content);
-      // var labelImage = document.getElementById('labelImage');
+      if (this.model == 'staff') {
+        console.debug("**** GEN STAFF IMAGE", this.badge_content)
+        this.previewImage = this.generateStaffPreview(this.badge_content);
+      } else {
+        this.previewImage = this.generatePreview(this.badge_content);
+      }
       if (this.previewImage) {
+        console.debug("*** STAFF IMAGE")
         return "data:image/png;base64," + this.previewImage;
       } else {
         return null;
