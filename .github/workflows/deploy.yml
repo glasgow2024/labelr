@@ -78,9 +78,9 @@ jobs:
 
       - name: Define the repository labels
         run: |
-          echo "CONTAINER_TEST_REPOSITORY=ghcr.io/balen/labelr:ci-${{ github.sha }}" >> $GITHUB_ENV
-          echo "CONTAINER_CYPRESS_REPOSITORY=ghcr.io/balen/labelr:ci-cypress-${{ github.sha }}" >> $GITHUB_ENV
-          echo "CONTAINER_DEPLOY_REPOSITORY=ghcr.io/balen/labelr:${{ steps.extract_name.outputs.branch }}" >> $GITHUB_ENV
+          echo "CONTAINER_TEST_REPOSITORY=ghcr.io/glasgow2024/labelr:ci-${{ github.sha }}" >> $GITHUB_ENV
+          echo "CONTAINER_CYPRESS_REPOSITORY=ghcr.io/glasgow2024/labelr:ci-cypress-${{ github.sha }}" >> $GITHUB_ENV
+          echo "CONTAINER_DEPLOY_REPOSITORY=ghcr.io/glasgow2024/labelr:${{ steps.extract_name.outputs.branch }}" >> $GITHUB_ENV
 
       - name: Set up Docker Buildx
         id: buildx
