@@ -73,7 +73,9 @@ CREATE TABLE public.impressions (
     lock_version integer,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    label_type public.label_type_enum DEFAULT 'member'::public.label_type_enum
+    label_type public.label_type_enum DEFAULT 'member'::public.label_type_enum,
+    product_id integer,
+    product_list_name character varying
 );
 
 
@@ -172,6 +174,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20240401180351'),
 ('20240405152116'),
 ('20240405202523'),
-('20240406202216');
+('20240406202216'),
+('20240424124450');
 
 
