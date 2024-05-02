@@ -8,6 +8,11 @@
       <div class="mx-auto" style="width: 400px;">
         <img id="labelImage" :src="preview" />
       </div>
+      <div class="d-flex justify-content-between my-3" v-if="model != 'staff'">
+        <b-form-checkbox
+          v-model="hideCountry" switch inline
+        >Do not print Country</b-form-checkbox>
+      </div>   
       <div class="d-flex justify-content-between my-3">
         <b-button variant="success" @click="onPrint()">Print</b-button>
         <b-button variant="success" @click="onRefresh()">Refresh</b-button>
@@ -18,13 +23,13 @@
           <dd class="font-italic ml-2">{{ selected.ticket_number }}</dd>
           <dt>Name</dt>
           <dd class="font-italic ml-2">{{ selected.first_name }} {{ selected.last_name }}</dd>
-          <dt>Preferred Name</dt>
-          <dd class="font-italic ml-2">{{ selected.preferred_name_first }} {{ selected.preferred_name_last }}</dd>
-          <dt>Badge Name</dt>
-          <dd class="font-italic ml-2">{{ selected.badge }}</dd>
-          <dt>Badge Title</dt>
+          <dt v-if="model != 'staff'">Preferred Name</dt>
+          <dd class="font-italic ml-2" v-if="model != 'staff'">{{ selected.preferred_name_first }} {{ selected.preferred_name_last }}</dd>
+          <dt v-if="model != 'staff'">Badge Name</dt>
+          <dd class="font-italic ml-2" v-if="model != 'staff'">{{ selected.badge }}</dd>
+          <dt>{{ badge_title_text }}</dt>
           <dd class="font-italic ml-2">{{ selected.badge_title }}</dd>
-          <dt>Country</dt>
+          <dt>{{ country_text }} </dt>
           <dd class="font-italic ml-2">{{ selected.address_country }}</dd>
         </dl>
       </div>
@@ -58,11 +63,26 @@ export default {
   ],
   data() {
     return {
+      hideCountry: false,
       previewImage: null,
       DateTime
     }
   },
   computed: {
+    badge_title_text: function() {
+      if (this.model == 'staff') {
+        return "Title"
+      } else {
+        return "Badge Title"
+      }
+    },
+    country_text: function() {
+      if (this.model == 'staff') {
+        return "Division"
+      } else {
+        return "Country"
+      }
+    },
     attending_status: function() {
       if (!this.selected) return "";
 
@@ -106,20 +126,18 @@ export default {
         return {
           name: this.badge_name,
           number: this.selected.ticket_number,
-          country: this.selected.address_country,
+          country: this.hideCountry ? '' : this.selected.address_country,
           title: this.selected.badge_title
         }
       }
     },
     preview: function () {
       if (this.model == 'staff') {
-        console.debug("**** GEN STAFF IMAGE", this.badge_content)
         this.previewImage = this.generateStaffPreview(this.badge_content);
       } else {
         this.previewImage = this.generatePreview(this.badge_content);
       }
       if (this.previewImage) {
-        console.debug("*** STAFF IMAGE")
         return "data:image/png;base64," + this.previewImage;
       } else {
         return null;

@@ -1,8 +1,8 @@
 {
   "type": "module",
   "devDependencies": {
-    "@vue/compiler-sfc": "^3.4.21",
-    "@vue/runtime-dom": "^3.4.21",
+    "@vue/compiler-sfc": "^3.4.26",
+    "@vue/runtime-dom": "^3.4.26",
     "vite": "^5.0.0",
     "vite-plugin-full-reload": "^1.1.0",
     "vite-plugin-ruby": "^5.0.0"
@@ -10,15 +10,15 @@
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "@vitejs/plugin-vue": "^5.0.4",
-    "@vue/compat": "^3.4.21",
+    "@vue/compat": "^3.4.26",
     "axios": "^1.6.7",
-    "bootstrap-vue": "^2.23.1",
+    "bootstrap-vue": "^2.23.0",
     "jsonapi-vuex": "^5.13.1",
     "lodash": "^4.17.21",
     "luxon": "^3.4.4",
     "sass": "^1.71.1",
     "uuid": "^9.0.1",
-    "vue": "^3.4.21",
+    "vue": "^3.4.26",
     "vue-cookies": "^1.8.3",
     "vue-pluralize": "^0.0.2",
     "vue-query-builder": "^0.8",

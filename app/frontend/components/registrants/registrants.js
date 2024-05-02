@@ -23,6 +23,12 @@ export const registrant_columns = [
     sortable: true
   },
   {
+    key: 'email',
+    sortKey: 'email',
+    label: 'Email',
+    sortable: true
+  },
+  {
     key: 'preferred_name_first',
     sortKey: 'preferred_name_first',
     label: 'Preferred First Name',
