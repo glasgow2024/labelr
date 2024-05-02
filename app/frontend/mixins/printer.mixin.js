@@ -6,6 +6,7 @@ import staffBadgeXML from '@/data/staffBadge.xml?raw'
 import userSessionMixin from "@/mixins/user_session.mixin"
 import modelUtilsMixin from '@/mixins/model_utils.mixin';
 import { registrantModel } from '@/store/registrant.store'
+import { staffModel } from '@/store/staff.store'
 
 export const printerMixin = {
   mixins: [
@@ -16,12 +17,18 @@ export const printerMixin = {
     return {
       badgexml: badgeXML,
       staffBadgeXML: staffBadgeXML,
-      labelType: 'member', // or staff
       label: null,
       labelJson: {}
     }
   },
   computed: {
+    labelType: function() {
+      if (this.model == "staff") {
+        return 'staff'
+      } else {
+        return 'member'
+      }
+    },
     ...mapState([
       'environment',
       'printers',
@@ -128,17 +135,14 @@ export const printerMixin = {
     },
 
     generateStaffLabel({ name: name, position: position, division: division }) {
-      console.debug("***** STAFF LABEL")
       let label = dymo.label.framework.openLabelXml(this.staffBadgeXML)
       let valid = label.isValidLabel();
-      console.debug("***** STAFF LABEL", valid)
 
       if (!valid) return null;
 
       this.labelJson = { name: name, position: position, division: division }
 
       this.setMemberName(label, name)
-      // label.setObjectText('memberName', name);
 
       if (position) {
         label.setObjectText('staffPosition', position);
@@ -150,8 +154,6 @@ export const printerMixin = {
       } else {
         label.setObjectText('staffDivision', "");
       }
-
-      console.debug("***** STAFF LABEL", label)
 
       return label;
     },
@@ -180,7 +182,6 @@ export const printerMixin = {
     generateStaffPreview({ name = "", position = "", division = ""}) {
       try {
         this.label = this.generateStaffLabel({ name: name, position: position, division: division });
-        console.debug("*** WE HAVE LABEL", this.label)
         if (!this.label) return null;
         return this.label.render();
       } catch (err) {
@@ -205,17 +206,17 @@ export const printerMixin = {
 
       try {
         this.label.print(this.selected_printer)
-        let selected_registrant = this.selected_model(registrantModel);
+        let selected_mdl = this.selected_model(this.model);
         this.saveImpression({
           user_id: this.currentUser.id,
-          registrant_id: selected_registrant.id,
+          registrant_id: selected_mdl.id,
           label_used: this.labelJson,
           user_name: this.currentUser.name,
           label_type: this.labelType
         }).then(
           () => {
             // refresh the selected registrant ...
-            this.fetch_model_by_id('registrant', selected_registrant.id);
+            this.fetch_model_by_id(this.model, selected_mdl.id);
           }
         )
       } catch (err) {
