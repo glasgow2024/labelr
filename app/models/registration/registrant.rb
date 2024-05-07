@@ -6,7 +6,7 @@ class Registration::Registrant < Registration::RegistrationRecord
   # 25 - WSFS only supporting
   # 35 - Chengdu members
   # attending status
-  default_scope { where("attending_status != 1") }
+  default_scope { where("attending_status != 1" and "attending_status != 6") }
 
   belongs_to :product, class_name: 'Registration::Product'
 
