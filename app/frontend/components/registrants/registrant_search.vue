@@ -65,8 +65,8 @@ export default {
       { value: 2, text: "In Person"},
       { value: 3, text: "Online"},
       { value: 4, text: "Programme"},
-      { value: 5, text: "Finalist"},
-      { value: 6, text: "Volunteer"}
+      { value: 5, text: "Finalist"}
+      // { value: 6, text: "Volunteer"}
     ],
     search_text: null,
     product_id: null,
