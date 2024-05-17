@@ -1,51 +1,47 @@
 <template>
-<div>
-  <div class="d-flex justify-content-between my-3">
-    <b-input-group>
-      <b-input-group-prepend>
-        <b-input-group-text>
-          <b-icon icon="search" />
-        </b-input-group-text>
-      </b-input-group-prepend>
-      <b-form-input type="text" v-model="search_text" debounce="500" v-on:keyup.enter="onSearch"></b-form-input>
-      <b-input-group-append>
-        <b-button variant="primary" @click="onSearch">Search</b-button>
-      </b-input-group-append>
-    </b-input-group>
-    <div class="w-75"></div>
-  </div>
-  <b-form-group label="Search By:">
-    <div class="d-flex mb-3">
-      <span class="mr-2"><strong>Attending Status:</strong></span>
-      <div>
-        <b-form-select v-model="attendingStatus" :options="attendingOptions"></b-form-select>
-      </div>
-      <!-- <div class="w-50"></div> -->
+  <div>
+    <div class="d-flex justify-content-between my-3">
+      <b-input-group>
+        <b-input-group-prepend>
+          <b-input-group-text>
+            <b-icon icon="search" />
+          </b-input-group-text>
+        </b-input-group-prepend>
+        <b-form-input type="text" v-model="search_text" debounce="500" v-on:keyup.enter="onSearch"></b-form-input>
+        <b-input-group-append>
+          <b-button variant="primary" @click="onSearch">Search</b-button>
+        </b-input-group-append>
+      </b-input-group>
+      <div class="w-75"></div>
     </div>
-    <b-form-checkbox
-      v-model="searchAllFields"
-      @change="toggleSelectAll"
-      inline
-      class="mr-4"
-    >All</b-form-checkbox>
-    <b-form-checkbox
-      v-for="option in searchOptions"
-      v-model="searchFields"
-      :key="option.value"
-      :value="option.value"
-      name="search-fields"
-      inline
-    >{{ option.text }}</b-form-checkbox>
-  </b-form-group>
-</div>
+    <b-form-group label="Search By:">
+      <div class="d-flex mb-3" v-if="model != 'staff'">
+        <span class="mr-2"><strong>Attending Status:</strong></span>
+        <div>
+          <b-form-select v-model="attendingStatus" :options="attendingOptions"></b-form-select>
+        </div>
+        <!-- <div class="w-50"></div> -->
+      </div>
+      <b-form-checkbox v-model="searchAllFields" @change="toggleSelectAll" inline class="mr-4">All</b-form-checkbox>
+      <b-form-checkbox v-for="option in searchOptions" v-model="searchFields" :key="option.value" :value="option.value"
+        name="search-fields" inline>{{ option.text }}</b-form-checkbox>
+    </b-form-group>
+  </div>
 </template>
 
 <script>
 import searchStateMixin from '@/store/search_state.mixin'
 const SAVED_SEARCH_STATE = "REGISTRANT SEARCH STATE";
+const SAVED_SEARCH_STAFF_STATE = "STAFF SEARCH STATE";
 
 export default {
   name: "RegistrantSearch",
+  props: {
+    model: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     searchFields: [],
     searchOptions: [
@@ -80,7 +76,14 @@ export default {
   computed: {
     searchAllFields: function () {
       return this.searchFields.length == 9
-    }    
+    },
+    savedSearchKey: function () {
+      if (this.model == "staff") {
+        return SAVED_SEARCH_STAFF_STATE;
+      } else {
+        return SAVED_SEARCH_STATE;
+      }
+    }
   },
   methods: {
     toggleSelectAll(arg) {
@@ -119,7 +122,7 @@ export default {
       }
 
       // attending_status
-      if (this.attendingStatus) {
+      if (this.attendingStatus && this.model != "staff") {
         queries["queries"].push(
           ["attending_status", "=", this.attendingStatus],
         )
@@ -129,7 +132,7 @@ export default {
     },
     onSearch: function (event) {
       this.setSearchState({
-        key: SAVED_SEARCH_STATE,
+        key: this.savedSearchKey,
         setting: {
           search_text: this.search_text,
           product_id: this.product_id,
@@ -142,7 +145,7 @@ export default {
     },
     init() {
       this.searchFields = this.searchOptions.map(obj => obj.value)
-      let saved = this.getSearchState()(SAVED_SEARCH_STATE)
+      let saved = this.getSearchState()(this.savedSearchKey)
       if (saved) {
         this.search_text = saved.search_text
         this.product_id = saved.product_id
