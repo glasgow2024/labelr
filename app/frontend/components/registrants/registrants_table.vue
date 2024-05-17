@@ -1,6 +1,6 @@
 <template>
   <div>
-    <registrant-search @change="onSearchChanged"></registrant-search>
+    <registrant-search @change="onSearchChanged" :model="model"></registrant-search>
     <table-vue 
       defaultSortBy='ticket_number'
       :defaultSortDesc="false"
