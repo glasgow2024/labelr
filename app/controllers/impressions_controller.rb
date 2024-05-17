@@ -6,6 +6,15 @@ class ImpressionsController < ResourceController
 
   def before_save
     @object.date_printed = DateTime.now() unless @object.date_printed
+    
+    begin
+      registrant = Registration::Registrant.find(@object.registrant_id)
+      product = registrant.product
+      @object.product_id = product.id
+      @object.product_list_name = product.list_name
+    rescue Exception => ex
+      # Do nowt
+    end
   end
 
   def allowed_params
