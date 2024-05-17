@@ -92,11 +92,26 @@ export const printerMixin = {
           var fontSize = dymo.xml.getElements(FormattedText, "FontSize")
           fontSize[0].textContent = 24
         }
-        if (split_name.splits == 2) {
+        // Staff label has less room ...
+        if ((this.model == "staff") && (split_name.splits == 1)) {
           var el = this.getObjectByNameElement(label, 'MemberName')
           var FormattedText = dymo.xml.getElement(el, "FormattedText");
           var fontSize = dymo.xml.getElements(FormattedText, "FontSize")
-          fontSize[0].textContent = 12
+          fontSize[0].textContent = 14
+        }
+        if (split_name.splits == 2) {
+          if (this.model == "staff") {
+            // Staff label has less room ...
+            var el = this.getObjectByNameElement(label, 'MemberName')
+            var FormattedText = dymo.xml.getElement(el, "FormattedText");
+            var fontSize = dymo.xml.getElements(FormattedText, "FontSize")
+            fontSize[0].textContent = 8
+          } else {
+            var el = this.getObjectByNameElement(label, 'MemberName')
+            var FormattedText = dymo.xml.getElement(el, "FormattedText");
+            var fontSize = dymo.xml.getElements(FormattedText, "FontSize")
+            fontSize[0].textContent = 12
+          }
         }
 
         label.setObjectText('MemberName', split_name.name);
