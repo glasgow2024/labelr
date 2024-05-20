@@ -86,7 +86,7 @@ export const printerMixin = {
     setMemberName(label, name) {
       if (name) {
         let split_name = this.split_name(name);
-        if (split_name.splits == 0) {
+        if (this.model != "staff" && split_name.splits == 0) {
           var el = this.getObjectByNameElement(label, 'MemberName')
           var FormattedText = dymo.xml.getElement(el, "FormattedText");
           var fontSize = dymo.xml.getElements(FormattedText, "FontSize")
