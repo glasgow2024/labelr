@@ -91,7 +91,7 @@
             </DYMOPoint>
             <Size>
               <Width>3.116983</Width>
-              <Height>0.4514327</Height>
+              <Height>0.5336716</Height>
             </Size>
           </ObjectLayout>
         </TextObject>
@@ -140,7 +140,7 @@
                 <Text>STAFF POSITION</Text>
                 <FontInfo>
                   <FontName>Tahoma</FontName>
-                  <FontSize>16</FontSize>
+                  <FontSize>12</FontSize>
                   <IsBold>True</IsBold>
                   <IsItalic>False</IsItalic>
                   <IsUnderline>False</IsUnderline>
@@ -155,12 +155,12 @@
           </FormattedText>
           <ObjectLayout>
             <DYMOPoint>
-              <X>0.2300001</X>
-              <Y>0.5040963</Y>
+              <X>0.2313158</X>
+              <Y>0.5956531</Y>
             </DYMOPoint>
             <Size>
               <Width>3.10029</Width>
-              <Height>0.2894208</Height>
+              <Height>0.2145716</Height>
             </Size>
           </ObjectLayout>
         </TextObject>
@@ -206,10 +206,10 @@
             <IsVertical>False</IsVertical>
             <LineTextSpan>
               <TextSpan>
-                <Text>STAFF DIVISIO</Text>
+                <Text>Art-show, Dealers and Displays</Text>
                 <FontInfo>
                   <FontName>Tahoma</FontName>
-                  <FontSize>16</FontSize>
+                  <FontSize>12</FontSize>
                   <IsBold>True</IsBold>
                   <IsItalic>False</IsItalic>
                   <IsUnderline>False</IsUnderline>
@@ -225,11 +225,11 @@
           <ObjectLayout>
             <DYMOPoint>
               <X>0.2300097</X>
-              <Y>0.7692766</Y>
+              <Y>0.8203506</Y>
             </DYMOPoint>
             <Size>
               <Width>3.117783</Width>
-              <Height>0.2806429</Height>
+              <Height>0.2276075</Height>
             </Size>
           </ObjectLayout>
         </TextObject>
