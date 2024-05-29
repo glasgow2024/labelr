@@ -15,7 +15,8 @@ class Registration::Registrant < Registration::RegistrationRecord
             -> {
               where("impressions.label_type = 'member'")
             },
-            class_name: "Impression", foreign_key: "registrant_id"
+            as: :registable,
+            class_name: "Impression", foreign_key: "registable_id"
 
   # Make sure that the data is treated as read only
   def readonly?
