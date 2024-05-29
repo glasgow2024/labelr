@@ -224,7 +224,8 @@ export const printerMixin = {
         let selected_mdl = this.selected_model(this.model);
         this.saveImpression({
           user_id: this.currentUser.id,
-          registrant_id: selected_mdl.id,
+          registable_id: selected_mdl.id,
+          registable_type: this.model == "staff" ? "Registration::Staff" : "Registration::Registrant",
           label_used: this.labelJson,
           user_name: this.currentUser.name,
           label_type: this.labelType

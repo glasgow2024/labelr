@@ -65,7 +65,7 @@ CREATE TABLE public.ar_internal_metadata (
 
 CREATE TABLE public.impressions (
     id uuid DEFAULT public.gen_random_uuid() NOT NULL,
-    registrant_id integer,
+    registable_id integer,
     user_id uuid,
     user_name character varying(500),
     date_printed timestamp(6) without time zone,
@@ -75,7 +75,8 @@ CREATE TABLE public.impressions (
     updated_at timestamp(6) without time zone NOT NULL,
     label_type public.label_type_enum DEFAULT 'member'::public.label_type_enum,
     product_id integer,
-    product_list_name character varying
+    product_list_name character varying,
+    registable_type character varying DEFAULT 'Registration::Registrant'::character varying
 );
 
 
@@ -175,6 +176,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20240405152116'),
 ('20240405202523'),
 ('20240406202216'),
-('20240424124450');
+('20240424124450'),
+('20240525120621');
 
 
