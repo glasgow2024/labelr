@@ -86,7 +86,7 @@ export const printerMixin = {
     setMemberName(label, name) {
       if (name) {
         let split_name = this.split_name(name);
-        if (split_name.splits == 0) {
+        if (this.model != "staff" && split_name.splits == 0) {
           var el = this.getObjectByNameElement(label, 'MemberName')
           var FormattedText = dymo.xml.getElement(el, "FormattedText");
           var fontSize = dymo.xml.getElements(FormattedText, "FontSize")
@@ -224,7 +224,8 @@ export const printerMixin = {
         let selected_mdl = this.selected_model(this.model);
         this.saveImpression({
           user_id: this.currentUser.id,
-          registrant_id: selected_mdl.id,
+          registable_id: selected_mdl.id,
+          registable_type: this.model == "staff" ? "Registration::Staff" : "Registration::Registrant",
           label_used: this.labelJson,
           user_name: this.currentUser.name,
           label_type: this.labelType

@@ -8,7 +8,7 @@ class ImpressionsController < ResourceController
     @object.date_printed = DateTime.now() unless @object.date_printed
     
     begin
-      registrant = Registration::Registrant.find(@object.registrant_id)
+      registrant = @object.registable
       product = registrant.product
       @object.product_id = product.id
       @object.product_list_name = product.list_name
@@ -21,7 +21,8 @@ class ImpressionsController < ResourceController
     %i[
       id
       lock_version
-      registrant_id
+      registable_id
+      registable_type
       user_id
       date_printed
       label_used
